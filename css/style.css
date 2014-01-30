@@ -1,16 +1,35 @@
+h1 {
+	text-align: center;
+}
+
+#wrapper {
+	width: 780px;
+	margin: auto;
+	padding: none;
+}
+
 table {
 	border-collapse: collapse;
+	display: inline-block;
 }
 
 td, th {
-	width: 30px;
-	height: 30px;
 	border: 1px solid black;
 	padding: none;
 }
 
+#player td, th {
+	width: 30px;
+	height: 30px;
+}
+
+#computer td, th {
+	width: 30px;
+	height: 30px;
+}
+
 td {
-	background-color: #FFFFFF;
+	background-color: #3B7ADB;
 }
 
 .vertical {
@@ -46,5 +65,5 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6db3f2', end
 }
 
 .hover {
-	background-color: #E8F2FC;
+	background-color: #1e69de;
 }
