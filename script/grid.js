@@ -31,8 +31,13 @@ function createTable(id) {
 };
 
 // call grid in the beginning
+//$(document).ready(function() {
+//	$('#wrapper').append(createTable('player'));
+//});
+
+// call grid in the beginning
 $(document).ready(function() {
-	$('#wrapper').append(createTable('player'));
+	$(createTable('player')).insertBefore('#ship-wrapper');
 });
 
 // hover columns and rows

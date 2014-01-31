@@ -1,11 +1,25 @@
+body {
+	background-color: #6db0f0;
+}
+
 h1 {
 	text-align: center;
 }
 
 #wrapper {
-	width: 780px;
+	width: 650px;
 	margin: auto;
-	padding: none;
+	padding: 0;
+}
+
+#ship-wrapper {
+	width: 250px;
+	display: inline-block;
+	margin-left: 25px;
+}
+
+#ship-wrapper img {
+	display: block;
 }
 
 table {
@@ -21,11 +35,7 @@ td, th {
 #player td, th {
 	width: 30px;
 	height: 30px;
-}
-
-#computer td, th {
-	width: 30px;
-	height: 30px;
+	font-size: 18px;
 }
 
 td {
@@ -55,13 +65,13 @@ td {
 }
 
 .horizonal {background: #6db3f2; /* Old browsers */
-background: -moz-linear-gradient(left,  #6db3f2 0%, #54a3ee 50%, #3690f0 51%, #1e69de 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, right top, color-stop(0%,#6db3f2), color-stop(50%,#54a3ee), color-stop(51%,#3690f0), color-stop(100%,#1e69de)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(left,  #6db3f2 0%,#54a3ee 50%,#3690f0 51%,#1e69de 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(left,  #6db3f2 0%,#54a3ee 50%,#3690f0 51%,#1e69de 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(left,  #6db3f2 0%,#54a3ee 50%,#3690f0 51%,#1e69de 100%); /* IE10+ */
-background: linear-gradient(to right,  #6db3f2 0%,#54a3ee 50%,#3690f0 51%,#1e69de 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6db3f2', endColorstr='#1e69de',GradientType=1 ); /* IE6-9 */
+	background: -moz-linear-gradient(left,  #6db3f2 0%, #54a3ee 50%, #3690f0 51%, #1e69de 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#6db3f2), color-stop(50%,#54a3ee), color-stop(51%,#3690f0), color-stop(100%,#1e69de)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(left,  #6db3f2 0%,#54a3ee 50%,#3690f0 51%,#1e69de 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left,  #6db3f2 0%,#54a3ee 50%,#3690f0 51%,#1e69de 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left,  #6db3f2 0%,#54a3ee 50%,#3690f0 51%,#1e69de 100%); /* IE10+ */
+	background: linear-gradient(to right,  #6db3f2 0%,#54a3ee 50%,#3690f0 51%,#1e69de 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6db3f2', endColorstr='#1e69de',GradientType=1 ); /* IE6-9 */
 }
 
 .hover {
