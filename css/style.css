@@ -25,7 +25,7 @@ p {
 }
 
 #ship-wrapper img {
-	display: block;
+	display: inline-block;
 }
 
 #ship-wrapper p {
