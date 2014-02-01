@@ -7,8 +7,10 @@ shipArray[3] = 'ships/cruiser.png';
 shipArray[4] = 'ships/destroyer.png';
 shipArray[5] = 'ships/submarine.png';
 
+// Give ships names
 var shipNames = ['Aircraft carrier: ', 'Battleship: ', 'Cruiser: ', 'Cruiser: ', 'Destroyer: ', 'Submarine: ']
 
+// Connect images with names inside p tags
 function shipImages() {
 	var pShipArray = [];
 	for (var i=0; i<shipArray.length; i++) {

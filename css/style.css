@@ -6,20 +6,43 @@ h1 {
 	text-align: center;
 }
 
+p {
+	font-size: 18px;
+	text-align: center;
+}
+
 #wrapper {
-	width: 650px;
+	width: 550px;
 	margin: auto;
 	padding: 0;
 }
 
 #ship-wrapper {
-	width: 250px;
+	width: 155px;
 	display: inline-block;
 	margin-left: 25px;
+	vertical-align: top;
 }
 
 #ship-wrapper img {
 	display: block;
+}
+
+#ship-wrapper p {
+	font-size: 12px;
+	text-align: left;
+}
+
+#game-starter {
+	width: 300px;
+	height: 25px;
+	margin: auto;
+	margin-top: 25px;
+	font-size: 22px;
+	background-color: #3B7ADB;
+	text-align: center;
+	border: 1px solid black;
+	cursor: pointer;
 }
 
 table {
@@ -29,10 +52,7 @@ table {
 
 td, th {
 	border: 1px solid black;
-	padding: none;
-}
-
-#player td, th {
+	padding: 0;
 	width: 30px;
 	height: 30px;
 	font-size: 18px;
@@ -74,6 +94,6 @@ td {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6db3f2', endColorstr='#1e69de',GradientType=1 ); /* IE6-9 */
 }
 
-.hover {
+.hover, #game-starter.hover {
 	background-color: #1e69de;
 }
