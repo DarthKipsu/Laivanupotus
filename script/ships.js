@@ -1,23 +1,28 @@
-// create ships
-function createShips() {
-	var aircraftCarrier = document.createElement('img');
-	aircraftCarrier.src = 'ships/aircraft_carrier.png';
-	var battleship = document.createElement('img');
-	battleship.src = 'ships/battleship.png';
-	var battleship = document.createElement('img');
-	battleship.src = 'ships/battleship.png';
-	var cruiser = document.createElement('img');
-	cruiser.src = 'ships/cruiser.png';
-	var cruiser2 = document.createElement('img');
-	cruiser2.src = 'ships/cruiser.png';
-	var destroyer = document.createElement('img');
-	destroyer.src = 'ships/destroyer.png';
-	var submarine = document.createElement('img');
-	submarine.src = 'ships/submarine.png';
-	return [aircraftCarrier, battleship, cruiser, cruiser2, destroyer, submarine];
+// create ships in an array
+var shipArray = [];
+shipArray[0] = 'ships/aircraft_carrier.png';
+shipArray[1] = 'ships/battleship.png';
+shipArray[2] = 'ships/cruiser.png';
+shipArray[3] = 'ships/cruiser.png';
+shipArray[4] = 'ships/destroyer.png';
+shipArray[5] = 'ships/submarine.png';
+
+var shipNames = ['Aircraft carrier: ', 'Battleship: ', 'Cruiser: ', 'Cruiser: ', 'Destroyer: ', 'Submarine: ']
+
+function shipImages() {
+	var pShipArray = [];
+	for (var i=0; i<shipArray.length; i++) {
+		var p = document.createElement('p');
+		p.appendChild(document.createTextNode(shipNames[i]));
+		var image = new Image();
+		image.src = shipArray[i];
+		p.appendChild(image);
+		pShipArray.push(p);
+	};
+	return pShipArray;
 };
 
 // call ships in the beginning
 $(document).ready(function() {
-	$('#ship-wrapper').append(createShips());
+	$('#ship-wrapper').append(shipImages());
 });
