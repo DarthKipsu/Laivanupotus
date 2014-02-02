@@ -4,7 +4,7 @@ function Ship(name, intact, hit, sank) {
 	this.intact = intact;
 	this.hit = hit;
 	this.sank = sank;
-}
+};
 
 // Aircraft carrier images
 var carrierArray = [
@@ -114,51 +114,84 @@ function shipImages() {
 		p.appendChild(document.createTextNode(ships.name + ': '));
 		var br = document.createElement('br');
 		p.appendChild(br);
+		var span = document.createElement('span');
+		span.id = 'ship' + i;
+		span.setAttribute('draggable', 'true');
+		// add handledragstart function
+		span.addEventListener('dragstart', handleDragStart, false);
 		var shipImages = ships.intact;
 		for (var j=0; j<shipImages.length; j++) {
 			var image = new Image();
 			image.src = shipImages[j];
-			p.appendChild(image);
-		}
-		pShipArray.push(p);
-	}
-	return pShipArray;
-};
-
-/*/ create ships in an array
-var shipArray = [];
-shipArray[0] = 'ships/aircraft_carrier.png';
-shipArray[1] = 'ships/battleship.png';
-shipArray[2] = 'ships/cruiser.png';
-shipArray[3] = 'ships/cruiser.png';
-shipArray[4] = 'ships/destroyer.png';
-shipArray[5] = 'ships/submarine.png';
-
-// Give ships names
-var shipNames = [
-	'Aircraft carrier: ', 
-	'Battleship: ',
-	 'Cruiser: ', 
-	 'Cruiser: ', 
-	 'Destroyer: ', 
-	 'Submarine: ']
-
-// Connect images with names inside p tags
-function shipImages() {
-	var pShipArray = [];
-	for (var i=0; i<shipArray.length; i++) {
-		var p = document.createElement('p');
-		p.appendChild(document.createTextNode(shipNames[i]));
-		var image = new Image();
-		image.src = shipArray[i];
-		p.appendChild(image);
+			span.appendChild(image);
+		};
+		p.appendChild(span);
 		pShipArray.push(p);
 	};
 	return pShipArray;
 };
-*/
 
 // call ships in the beginning
 $(document).ready(function() {
 	$('#ship-wrapper').append(shipImages());
 });
+
+// Drag & drop
+
+// Make table droppable
+$(document).ready(function() {
+	var tds = document.querySelectorAll('td');
+	Array.prototype.forEach.call(tds, function(td) { // get method from array prototype
+		td.addEventListener('dragenter', handleDragEnter, false)
+		td.addEventListener('dragover', handleDragOver, false)
+		td.addEventListener('dragleave', handleDragLeave, false)
+		td.addEventListener('drop', handleDrop, false)
+		td.addEventListener('dragend', handleDragEnd, false)
+	});
+});
+
+var dragSrcEl = null;
+
+// Change opacity while dragging
+function handleDragStart(event) {
+	this.style.opacity = '0.4';
+	dragSrcEl = this;
+	event.dataTransfer.effectAllowed = 'move'; // move the object, not copy etc
+	event.dataTransfer.setData('text/html', this.innerHTML);
+};
+
+function handleDragOver(event) {
+	if (event.preventDefault) {
+		event.preventDefault(); // Allow drop.
+	}
+	event.dataTransfer.dropEffect = 'move';
+	return false;
+};
+
+// add over class to hover target
+function handleDragEnter(event) {
+	this.classList.add('over');
+};
+
+// remove over class
+function handleDragLeave(event) {
+	this.classList.remove('over');
+};
+
+// Drop the ship
+function handleDrop(event) {
+	if (event.stopPropagation) {
+		event.stopPropagation(); // stops browser redirects
+	}
+	event.preventDefault(); // stops browser image dropping
+	dragSrcEl.innerHTML = this.innerHTML;
+	this.innerHTML = event.dataTransfer.getData('text/html')
+	return false;
+};
+
+// remove over class
+function handleDragEnd(event) {
+	[].forEach.call(tds, function(td) {
+		td.classList.remove('over');
+	});
+};

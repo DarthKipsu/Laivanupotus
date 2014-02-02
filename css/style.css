@@ -26,6 +26,7 @@ p {
 
 #ship-wrapper img {
 	display: inline-block;
+	cursor: move;
 }
 
 #ship-wrapper p {
@@ -60,6 +61,10 @@ td, th {
 
 td {
 	background-color: #3B7ADB;
+}
+
+td.over {
+	border: 1px dashed red;
 }
 
 .vertical {
