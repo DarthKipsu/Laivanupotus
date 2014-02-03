@@ -63,8 +63,8 @@ td {
 	background-color: #3B7ADB;
 }
 
-td.over {
-	border: 1px dashed red;
+.over {
+	background-color: #6db3f2;
 }
 
 .vertical {
@@ -110,4 +110,9 @@ body:after {
 
 .hide {
 	display: none;
+}
+
+#ship-wrapper img.used {
+	opacity: 0.5;
+	cursor: default;
 }

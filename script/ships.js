@@ -151,7 +151,6 @@ $(document).ready(function() {
 		Array.prototype.forEach.call(tds, function(td) {
 			td.classList.remove('over');
 		});
-		console.log('drag end');
 	};
 });
 
@@ -159,10 +158,13 @@ var dragSrcEl = null;
 
 // Change opacity while dragging
 function handleDragStart(event) {
-	this.style.opacity = '0.4';
+	$(this).siblings().addClass('used');
+	$(this).addClass('used');
+	$(this).siblings().attr('draggable', 'false');
+	$(this).attr('draggable', 'false');
 	dragSrcEl = this;
-	event.dataTransfer.effectAllowed = 'move'; // allow moving object
-	event.dataTransfer.setData('text/html', this.outerHTML);
+	event.dataTransfer.effectAllowed = 'copy'; // allow moving object
+	event.dataTransfer.setData('image/png', this.outerHTML);
 	var dragIcon = document.createElement('img');
 	if ($(this).hasClass('ship0')) {
 		dragIcon.src = 'ships/aircraft_carrier.png';
@@ -187,7 +189,7 @@ function handleDragOver(event) {
 	if (event.preventDefault) {
 		event.preventDefault(); // Allow drop.
 	}
-	event.dataTransfer.dropEffect = 'move'; // move the object
+	event.dataTransfer.dropEffect = 'copy'; // move the object
 	return false;
 };
 
@@ -199,6 +201,7 @@ function handleDragEnter(event) {
 // remove over class
 function handleDragLeave(event) {
 	this.classList.remove('over');
+	console.log('failed drop')
 };
 
 // Drop the ship
@@ -208,6 +211,7 @@ function handleDrop(event) {
 	}
 	event.preventDefault(); // stops browser image dropping
 	dragSrcEl.innerHTML = this.innerHTML;
-	this.innerHTML = event.dataTransfer.getData('text/html')
+	this.innerHTML = event.dataTransfer.getData('image/png')
 	return false;
+	console.log('successfull drop')
 };
