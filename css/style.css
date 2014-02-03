@@ -102,3 +102,12 @@ td.over {
 .hover, #game-starter.hover {
 	background-color: #1e69de;
 }
+
+body:after {
+	content: url(ships/aircraft_carrier.png);
+	display: none;
+}
+
+.hide {
+	display: none;
+}

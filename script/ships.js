@@ -114,18 +114,16 @@ function shipImages() {
 		p.appendChild(document.createTextNode(ships.name + ': '));
 		var br = document.createElement('br');
 		p.appendChild(br);
-		var span = document.createElement('span');
-		span.id = 'ship' + i;
-		span.setAttribute('draggable', 'true');
-		// add handledragstart function
-		span.addEventListener('dragstart', handleDragStart, false);
 		var shipImages = ships.intact;
 		for (var j=0; j<shipImages.length; j++) {
 			var image = new Image();
 			image.src = shipImages[j];
-			span.appendChild(image);
+			image.setAttribute('class', 'ship' + i);
+			image.setAttribute('draggable', 'true');
+			// add handledragstart function
+			image.addEventListener('dragstart', handleDragStart, false);
+			p.appendChild(image);
 		};
-		p.appendChild(span);
 		pShipArray.push(p);
 	};
 	return pShipArray;
@@ -141,7 +139,7 @@ $(document).ready(function() {
 // Make table droppable
 $(document).ready(function() {
 	var tds = document.querySelectorAll('td');
-	Array.prototype.forEach.call(tds, function(td) { // get method from array prototype
+	Array.prototype.forEach.call(tds, function(td) { // get method from Array prototype
 		td.addEventListener('dragenter', handleDragEnter, false)
 		td.addEventListener('dragover', handleDragOver, false)
 		td.addEventListener('dragleave', handleDragLeave, false)
@@ -163,15 +161,33 @@ var dragSrcEl = null;
 function handleDragStart(event) {
 	this.style.opacity = '0.4';
 	dragSrcEl = this;
-	event.dataTransfer.effectAllowed = 'move'; // move the object, not copy etc
-	event.dataTransfer.setData('text/html', this.innerHTML);
+	event.dataTransfer.effectAllowed = 'move'; // allow moving object
+	event.dataTransfer.setData('text/html', this.outerHTML);
+	var dragIcon = document.createElement('img');
+	if ($(this).hasClass('ship0')) {
+		dragIcon.src = 'ships/aircraft_carrier.png';
+		event.dataTransfer.setDragImage(dragIcon, 77, 15);
+	} else if ($(this).hasClass('ship1')) {
+		dragIcon.src = 'ships/battleship.png';
+		event.dataTransfer.setDragImage(dragIcon, 77, 15);
+	} else if ($(this).hasClass('ship2') ||
+		$(this).hasClass('ship3')) {
+		dragIcon.src = 'ships/cruiser.png';
+		event.dataTransfer.setDragImage(dragIcon, 46, 15);
+	} else if ($(this).hasClass('ship4')) {
+		dragIcon.src = 'ships/destroyer.png';
+		event.dataTransfer.setDragImage(dragIcon, 46, 15);
+	} else if ($(this).hasClass('ship5')) {
+		dragIcon.src = 'ships/submarine.png';
+		event.dataTransfer.setDragImage(dragIcon, 15, 15);
+	};
 };
 
 function handleDragOver(event) {
 	if (event.preventDefault) {
 		event.preventDefault(); // Allow drop.
 	}
-	event.dataTransfer.dropEffect = 'move';
+	event.dataTransfer.dropEffect = 'move'; // move the object
 	return false;
 };
 
