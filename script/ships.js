@@ -1,9 +1,10 @@
 // Create Ship object
-function Ship(name, intact, hit, sank) {
+function Ship(name, intact, hit, sank, url) {
 	this.name = name;
 	this.intact = intact;
 	this.hit = hit;
 	this.sank = sank;
+	this.url = url;
 };
 
 // Aircraft carrier images
@@ -93,15 +94,17 @@ var submarineSankArray = [
 
 //Create the Ships
 var aircraftCarrier = new Ship('Aircraft carrier', carrierArray, carrierHitArray,
-	carrierSankArray);
+	carrierSankArray, 'ships/aircraft_carrier.png');
 var battleship = new Ship('Battleship', battleshipArray, battleshipHitArray, 
-	battleshipSankArray);
-var cruiser1 = new Ship('Cruiser', cruiserArray, cruiserHitArray, cruiserSankArray);
-var cruiser2 = new Ship('Cruiser', cruiserArray, cruiserHitArray, cruiserSankArray);
+	battleshipSankArray, 'ships/battleship.png');
+var cruiser1 = new Ship('Cruiser', cruiserArray, cruiserHitArray, cruiserSankArray,
+	'ships/cruiser.png');
+var cruiser2 = new Ship('Cruiser', cruiserArray, cruiserHitArray, cruiserSankArray,
+	'ships/cruiser.png');
 var destroyer = new Ship('Destroyer', destroyerArray, destroyerHitArray, 
-	destroyerSankArray);
+	destroyerSankArray, 'ships/destroyer.png');
 var submarine = new Ship('Submarine', submarineArray, submarineHitArray, 
-	submarineSankArray);
+	submarineSankArray, 'ships/submarine.png');
 
 var shipArray = [aircraftCarrier, battleship, cruiser1, cruiser2, destroyer, submarine]
 
@@ -114,16 +117,13 @@ function shipImages() {
 		p.appendChild(document.createTextNode(ships.name + ': '));
 		var br = document.createElement('br');
 		p.appendChild(br);
-		var shipImages = ships.intact;
-		for (var j=0; j<shipImages.length; j++) {
-			var image = new Image();
-			image.src = shipImages[j];
-			image.setAttribute('class', 'ship' + i);
-			image.setAttribute('draggable', 'true');
-			// add handledragstart function
-			image.addEventListener('dragstart', handleDragStart, false);
-			p.appendChild(image);
-		};
+		var image = new Image();
+		image.src = shipArray[i].url;
+		image.setAttribute('class', 'ship' + i);
+		image.setAttribute('draggable', 'true');
+		// add handledragstart function
+		image.addEventListener('dragstart', handleDragStart, false);
+		p.appendChild(image);
 		pShipArray.push(p);
 	};
 	return pShipArray;
@@ -158,9 +158,7 @@ var dragSrcEl = null;
 
 // Change opacity while dragging
 function handleDragStart(event) {
-	$(this).siblings().addClass('used');
 	$(this).addClass('used');
-	$(this).siblings().attr('draggable', 'false');
 	$(this).attr('draggable', 'false');
 	dragSrcEl = this;
 	event.dataTransfer.effectAllowed = 'copy'; // allow moving object
@@ -190,9 +188,7 @@ document.addEventListener('dragend', function noDrop(event) {
 	if (event.dataTransfer.dropEffect === 'copy') {
 		console.log("drop success")
 	} else {
-			$(dragSrcEl).siblings().removeClass('used');
 			$(dragSrcEl).removeClass('used');
-			$(dragSrcEl).siblings().attr('draggable', 'true');
 			$(dragSrcEl).attr('draggable', 'true');
 			console.log("drop failed")
 	}
@@ -272,11 +268,5 @@ function handleDrop(event) {
 	event.preventDefault(); // stops browser image dropping
 	dragSrcEl.innerHTML = this.innerHTML;
 	this.innerHTML = event.dataTransfer.getData('image/png');
-	/*dragSrcEl.removeEventListener('dragstart', handleDragStart, false);
-	dragSrcEl.removeEventListener('dragenter', handleDragEnter, false);
-	dragSrcEl.removeEventListener('dragover', handleDragOver, false);
-	dragSrcEl.removeEventListener('drop', handleDrop, false);
-	dragSrcEl.removeEventListener('drop', handleDragEnd, false);
-	dragSrcEl.removeEventListener('dragend', noDrop, false);*/
 	return false;
 };
