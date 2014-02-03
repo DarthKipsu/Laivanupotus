@@ -146,8 +146,15 @@ $(document).ready(function() {
 		td.addEventListener('dragover', handleDragOver, false)
 		td.addEventListener('dragleave', handleDragLeave, false)
 		td.addEventListener('drop', handleDrop, false)
-		td.addEventListener('dragend', handleDragEnd, false)
+		td.addEventListener('drop', handleDragEnd, false)
 	});
+	// remove over class
+	function handleDragEnd(event) {
+		Array.prototype.forEach.call(tds, function(td) {
+			td.classList.remove('over');
+		});
+		console.log('drag end');
+	};
 });
 
 var dragSrcEl = null;
@@ -187,11 +194,4 @@ function handleDrop(event) {
 	dragSrcEl.innerHTML = this.innerHTML;
 	this.innerHTML = event.dataTransfer.getData('text/html')
 	return false;
-};
-
-// remove over class
-function handleDragEnd(event) {
-	[].forEach.call(tds, function(td) {
-		td.classList.remove('over');
-	});
 };
