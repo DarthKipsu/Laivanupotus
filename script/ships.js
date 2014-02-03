@@ -173,7 +173,7 @@ function handleDragStart(event) {
 		dragIcon.src = 'ships/battleship.png';
 		event.dataTransfer.setDragImage(dragIcon, 77, 15);
 	} else if ($(this).hasClass('ship2') ||
-		$(this).hasClass('ship3')) {
+			$(this).hasClass('ship3')) {
 		dragIcon.src = 'ships/cruiser.png';
 		event.dataTransfer.setDragImage(dragIcon, 46, 15);
 	} else if ($(this).hasClass('ship4')) {
@@ -185,23 +185,83 @@ function handleDragStart(event) {
 	};
 };
 
+// Remove used class if drop doesn't fit in the grid
+document.addEventListener('dragend', function noDrop(event) {
+	if (event.dataTransfer.dropEffect === 'copy') {
+		console.log("drop success")
+	} else {
+			$(dragSrcEl).siblings().removeClass('used');
+			$(dragSrcEl).removeClass('used');
+			$(dragSrcEl).siblings().attr('draggable', 'true');
+			$(dragSrcEl).attr('draggable', 'true');
+			console.log("drop failed")
+	}
+});
+
 function handleDragOver(event) {
 	if (event.preventDefault) {
 		event.preventDefault(); // Allow drop.
 	}
-	event.dataTransfer.dropEffect = 'copy'; // move the object
+	if (!$(this).hasClass('forbidden')) {
+		event.dataTransfer.dropEffect = 'copy'; // move the object
+	} else {
+		event.dataTransfer.dropEffect = 'none'; // don't add ships to forbidden cells
+	}
 	return false;
 };
 
 // add over class to hover target
 function handleDragEnter(event) {
-	this.classList.add('over');
+	var tdId = $(this).prop('id');
+	var tdNumber = parseInt(tdId.substring(2,3));
+	var tdLetter = tdId.substring(0,2);
+	if ($(dragSrcEl).hasClass('ship0')) {
+		if (tdNumber <= 8 && tdNumber >= 3) {
+			for (var i=0; i<5; i++) {
+				var over = tdLetter + (tdNumber - 2 + i)
+				$('#' + over).addClass('over');
+			};
+		} else {
+			$(this).addClass('forbidden');
+		}
+	} else if ($(dragSrcEl).hasClass('ship1')) {
+		if (tdNumber <= 9 && tdNumber >= 3) {
+			for (var i=0; i<4; i++) {
+				var over = tdLetter + (tdNumber - 2 + i)
+				$('#' + over).addClass('over');
+			};
+		} else {
+			$(this).addClass('forbidden');
+		}
+	} else if ($(dragSrcEl).hasClass('ship2') ||
+			$(dragSrcEl).hasClass('ship3')) {
+		if (tdNumber <= 9 && tdNumber >= 2) {
+			for (var i=0; i<3; i++) {
+				var over = tdLetter + (tdNumber - 1 + i)
+				$('#' + over).addClass('over');
+			};
+		} else {
+			$(this).addClass('forbidden');
+		}
+	} else if ($(dragSrcEl).hasClass('ship4')) {
+		if (tdNumber >= 2) {
+			for (var i=0; i<2; i++) {
+				var over = tdLetter + (tdNumber - 1 + i)
+				$('#' + over).addClass('over');
+			};
+		} else {
+			$(this).addClass('forbidden');
+		}
+	} else {
+		$(this).addClass('over');
+	};
 };
 
 // remove over class
 function handleDragLeave(event) {
-	this.classList.remove('over');
-	console.log('failed drop')
+	$(this).removeClass('over');
+	$(this).siblings().removeClass('over');
+	$(this).removeClass('forbidden');
 };
 
 // Drop the ship
@@ -211,7 +271,12 @@ function handleDrop(event) {
 	}
 	event.preventDefault(); // stops browser image dropping
 	dragSrcEl.innerHTML = this.innerHTML;
-	this.innerHTML = event.dataTransfer.getData('image/png')
+	this.innerHTML = event.dataTransfer.getData('image/png');
+	/*dragSrcEl.removeEventListener('dragstart', handleDragStart, false);
+	dragSrcEl.removeEventListener('dragenter', handleDragEnter, false);
+	dragSrcEl.removeEventListener('dragover', handleDragOver, false);
+	dragSrcEl.removeEventListener('drop', handleDrop, false);
+	dragSrcEl.removeEventListener('drop', handleDragEnd, false);
+	dragSrcEl.removeEventListener('dragend', noDrop, false);*/
 	return false;
-	console.log('successfull drop')
 };
