@@ -63,6 +63,17 @@ td {
 	background-color: #3B7ADB;
 }
 
+td img {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-user-drag: none;
+	-moz-user-drag: none;
+	-ms-user-drag: none;
+	user-drag: none;
+}
+
 .over {
 	background-color: #6db3f2;
 }
@@ -119,9 +130,9 @@ body:after {
 #ship-wrapper img.used {
 	opacity: 0.5;
 	cursor: default;
-	-webkit-user-select: none;  
-	-moz-user-select: none;    
-	-ms-user-select: none;      
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
 	user-select: none;
 	-webkit-user-drag: none;
 	-moz-user-drag: none;

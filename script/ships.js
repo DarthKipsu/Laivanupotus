@@ -266,7 +266,105 @@ function handleDrop(event) {
 		event.stopPropagation(); // stops browser redirects
 	}
 	event.preventDefault(); // stops browser image dropping
-	dragSrcEl.innerHTML = this.innerHTML;
+	/*dragSrcEl.innerHTML = this.innerHTML;
 	this.innerHTML = event.dataTransfer.getData('image/png');
+	console.log(this.innerHTML)
+	console.log(dragSrcEl)*/
+	var tdId = $(this).prop('id');
+	var tdNumber = parseInt(tdId.substring(2,3));
+	var tdLetter = tdId.substring(0,2);
+	if ($(dragSrcEl).hasClass('ship0')) {
+		var shipImages = [];
+		for (var i=0; i<5; i++) {
+			var image = new Image();
+			image.src = carrierArray[i];
+			image.setAttribute('class', 'ship0');
+			image.setAttribute('draggable', 'false');
+			image.onmousedown = function(event) {
+				event.preventDefault();
+				return false;
+			};
+			shipImages.push(image);
+		};
+		$('#' + tdLetter + (tdNumber - 2)).append(shipImages[0])
+		$('#' + tdLetter + (tdNumber - 1)).append(shipImages[1])
+		$('#' + tdId).append(shipImages[2])
+		$('#' + tdLetter + (tdNumber + 1)).append(shipImages[3])
+		$('#' + tdLetter + (tdNumber + 2)).append(shipImages[4])
+	} else if ($(dragSrcEl).hasClass('ship1')) {
+		var shipImages = [];
+		for (var i=0; i<4; i++) {
+			var image = new Image();
+			image.src = battleshipArray[i];
+			image.setAttribute('class', 'ship1');
+			image.setAttribute('draggable', 'false');
+			image.onmousedown = function(event) {
+				event.preventDefault();
+				return false;
+			};
+			shipImages.push(image);
+		};
+		$('#' + tdLetter + (tdNumber - 2)).append(shipImages[0])
+		$('#' + tdLetter + (tdNumber - 1)).append(shipImages[1])
+		$('#' + tdId).append(shipImages[2])
+		$('#' + tdLetter + (tdNumber + 1)).append(shipImages[3])
+	} else if ($(dragSrcEl).hasClass('ship2')) {
+		var shipImages = [];
+		for (var i=0; i<3; i++) {
+			var image = new Image();
+			image.src = cruiserArray[i];
+			image.setAttribute('class', 'ship2');
+			image.setAttribute('draggable', 'false');
+			image.onmousedown = function(event) {
+				event.preventDefault();
+				return false;
+			};
+			shipImages.push(image);
+		};
+		$('#' + tdLetter + (tdNumber - 1)).append(shipImages[0])
+		$('#' + tdId).append(shipImages[1])
+		$('#' + tdLetter + (tdNumber + 1)).append(shipImages[2])
+	} else if ($(dragSrcEl).hasClass('ship3')) {
+		var shipImages = [];
+		for (var i=0; i<3; i++) {
+			var image = new Image();
+			image.src = cruiserArray[i];
+			image.setAttribute('class', 'ship3');
+			image.setAttribute('draggable', 'false');
+			image.onmousedown = function(event) {
+				event.preventDefault();
+				return false;
+			};
+			shipImages.push(image);
+		};
+		$('#' + tdLetter + (tdNumber - 1)).append(shipImages[0])
+		$('#' + tdId).append(shipImages[1])
+		$('#' + tdLetter + (tdNumber + 1)).append(shipImages[2])
+	} else if ($(dragSrcEl).hasClass('ship4')) {
+		var shipImages = [];
+		for (var i=0; i<3; i++) {
+			var image = new Image();
+			image.src = destroyerArray[i];
+			image.setAttribute('class', 'ship4');
+			image.setAttribute('draggable', 'false');
+			image.onmousedown = function(event) {
+				event.preventDefault();
+				return false;
+			};
+			shipImages.push(image);
+		};
+		$('#' + tdLetter + (tdNumber - 1)).append(shipImages[0])
+		$('#' + tdId).append(shipImages[1])
+	} else {
+		var image = new Image();
+		image.src = submarineArray[0];
+		image.setAttribute('class', 'ship5');
+		image.setAttribute('draggable', 'false');
+		image.onmousedown = function(event) {
+			event.preventDefault();
+			return false;
+		};
+		$('#' + tdId).append(image)
+	}
 	return false;
 };
