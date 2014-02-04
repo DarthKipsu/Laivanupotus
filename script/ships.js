@@ -160,6 +160,10 @@ var dragSrcEl = null;
 function handleDragStart(event) {
 	$(this).addClass('used');
 	$(this).attr('draggable', 'false');
+	this.onmousedown = function(event) {
+		event.preventDefault();
+		return false;
+	};
 	dragSrcEl = this;
 	event.dataTransfer.effectAllowed = 'copy'; // allow moving object
 	event.dataTransfer.setData('image/png', this.outerHTML);
@@ -191,6 +195,9 @@ document.addEventListener('dragend', function noDrop(event) {
 			$(dragSrcEl).removeClass('used');
 			$(dragSrcEl).attr('draggable', 'true');
 			console.log("drop failed")
+			dragSrcEl.onmousedown = function(event) {
+				return true;
+			};
 	}
 });
 
@@ -277,7 +284,6 @@ function handleDrop(event) {
 				var image = new Image();
 				image.src = arrayImages[j];
 				image.setAttribute('class', 'ship' + i);
-				image.setAttribute('draggable', 'false');
 				image.onmousedown = function(event) {
 					event.preventDefault();
 					return false;
