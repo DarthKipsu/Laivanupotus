@@ -165,8 +165,8 @@ function handleDragStart(event) {
 		return false;
 	};
 	dragSrcEl = this;
-	event.dataTransfer.effectAllowed = 'copy'; // allow moving object
-	event.dataTransfer.setData('image/png', this.outerHTML);
+	event.dataTransfer.effectAllowed = 'move'; // allow moving object
+	event.dataTransfer.setData('image/png', this.innerHTML);
 	var dragIcon = document.createElement('img');
 	if ($(this).hasClass('ship0')) {
 		dragIcon.src = 'ships/aircraft_carrier.png';
@@ -189,7 +189,7 @@ function handleDragStart(event) {
 
 // Remove used class if drop doesn't fit in the grid
 document.addEventListener('dragend', function noDrop(event) {
-	if (event.dataTransfer.dropEffect === 'copy') {
+	if (event.dataTransfer.dropEffect === 'move') {
 		console.log("drop success")
 	} else {
 			$(dragSrcEl).removeClass('used');
@@ -206,7 +206,7 @@ function handleDragOver(event) {
 		event.preventDefault(); // Allow drop.
 	}
 	if (!$(this).hasClass('forbidden')) {
-		event.dataTransfer.dropEffect = 'copy'; // move the object
+		event.dataTransfer.dropEffect = 'move'; // move the object
 	} else {
 		event.dataTransfer.dropEffect = 'none'; // don't add ships to forbidden cells
 	}

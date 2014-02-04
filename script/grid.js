@@ -23,6 +23,7 @@ function createTable(id) {
 			var td = document.createElement('td');
 			td.id = String.fromCharCode(i + 65) + "-" + (j + 1);
 			td.className = 'col' + (j + 1);
+			var div = document.createElement('div');
 			tr.appendChild(td);
 		};
 		table.appendChild(tr);

@@ -34,6 +34,18 @@ p {
 	text-align: left;
 }
 
+#rotate {
+	width: 110px;
+	height: 45px;
+	margin-left: 375px;
+	font-size: 18px;
+	background-color: #54a3ee;
+	text-align: center;
+	border: 1px solid black;
+	border-radius: 25px;
+	cursor: pointer;
+}
+
 #game-starter {
 	width: 300px;
 	height: 25px;
@@ -64,14 +76,8 @@ td {
 }
 
 td img {
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	-webkit-user-drag: none;
-	-moz-user-drag: none;
-	-ms-user-drag: none;
-	user-drag: none;
+	float: right;
+	margin: 0 -1px 0 0;
 }
 
 .over {
@@ -118,6 +124,10 @@ td img {
 	background-color: #1e69de;
 }
 
+.hover, #rotate.hover {
+	background-color: #3B7ADB;
+}
+
 body:after {
 	content: url(ships/aircraft_carrier.png);
 	display: none;
@@ -138,4 +148,10 @@ body:after {
 	-moz-user-drag: none;
 	-ms-user-drag: none;
 	user-drag: none;
+}
+
+.rotate90 {
+	transform: rotate(270deg);
+	-ms-transform: rotate(270deg);
+	-webkit-transform: rotate(270deg);
 }
