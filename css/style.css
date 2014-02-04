@@ -124,7 +124,7 @@ td img {
 	background-color: #1e69de;
 }
 
-.hover, #rotate.hover {
+#rotate.hover {
 	background-color: #3B7ADB;
 }
 
@@ -154,4 +154,12 @@ body:after {
 	transform: rotate(270deg);
 	-ms-transform: rotate(270deg);
 	-webkit-transform: rotate(270deg);
+	position: relative;
 }
+
+p .ship0.rotate90 { left: 100px; }
+p .ship1.rotate90 { left: 85px; }
+p .ship2.rotate90 { left: 70px; }
+p .ship3.rotate90 { left: 45px; }
+p .ship4.rotate90 { left: 40px; }
+p .ship5.rotate90 { left: 20px; }
