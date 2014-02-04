@@ -274,7 +274,7 @@ function handleDrop(event) {
 	}
 	event.preventDefault(); // stops browser image dropping
 	var tdId = $(this).prop('id');
-	var tdNumber = parseInt(tdId.substring(2,3));
+	var tdNumber = parseInt(tdId.substring(2,4));
 	var tdLetter = tdId.substring(0,2);
 	for (var i=0; i<shipArray.length; i++) {
 		if ($(dragSrcEl).hasClass('ship' + i)) {
@@ -296,10 +296,9 @@ function handleDrop(event) {
 				} else if (arrayImages.length > 1) {
 					$('#' + tdLetter + (tdNumber + (-1 + j))).append(shipImages[j]);
 				} else {
-					$('#' + tdLetter + (tdNumber + j)).append(shipImages[j]);
+					$('#' + tdLetter + (tdNumber)).append(shipImages[j]);
 				}
 			};
-			console.log(shipImages)
 		}
 	};
 	return false;
