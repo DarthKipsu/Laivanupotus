@@ -106,6 +106,7 @@ var destroyer = new Ship('Destroyer', destroyerArray, destroyerHitArray,
 var submarine = new Ship('Submarine', submarineArray, submarineHitArray, 
 	submarineSankArray, 'ships/submarine.png');
 
+// ship objects in one array
 var shipArray = [aircraftCarrier, battleship, cruiser1, cruiser2, destroyer, submarine]
 
 // Connect images with names inside p tags
@@ -119,14 +120,14 @@ function shipImages() {
 		p.appendChild(br);
 		var image = new Image();
 		image.src = shipArray[i].url;
-		image.setAttribute('class', 'ship' + i);
-		image.setAttribute('draggable', 'true');
-		// add handledragstart function
+		image.setAttribute('class', 'ship' + i); // id the ships wth classes
+		image.setAttribute('draggable', 'true'); // make them draggable
+		// add handledragstart function:
 		image.addEventListener('dragstart', handleDragStart, false);
 		p.appendChild(image);
 		pShipArray.push(p);
 	};
-	return pShipArray;
+	return pShipArray; // returns p with ship name and ship
 };
 
 // call ships in the beginning
@@ -154,23 +155,24 @@ $(document).ready(function() {
 	};
 });
 
+// object that is being dragged
 var dragObject = null;
 
-// Change opacity while dragging
 function handleDragStart(event) {
-	$(this).addClass('used');
+	$(this).addClass('used'); // add class to fade the ship
 	$(this).attr('draggable', 'false');
-	this.onmousedown = function(event) {
+	this.onmousedown = function(event) { // makes the ship unselectable
 		event.preventDefault();
 		return false;
 	};
-	dragObject = this;
+	dragObject = this; // put dragged object into global variable dragObject
 	event.dataTransfer.effectAllowed = 'move'; // allow moving object
 	event.dataTransfer.setData('image/png', this.innerHTML);
+	// add custom drag images, to control where the object is on grid
 	var dragIcon = document.createElement('img');
 	if ($(this).hasClass('ship0')) {
 		dragIcon.src = 'ships/aircraft_carrier.png';
-		event.dataTransfer.setDragImage(dragIcon, 77, 15);
+		event.dataTransfer.setDragImage(dragIcon, 77, 15); // grap coordinates
 	} else if ($(this).hasClass('ship1')) {
 		dragIcon.src = 'ships/battleship.png';
 		event.dataTransfer.setDragImage(dragIcon, 77, 15);
@@ -187,11 +189,11 @@ function handleDragStart(event) {
 	};
 };
 
-// Remove used class if drop doesn't fit in the grid
+// listen to dragend function
 document.addEventListener('dragend', function noDrop(event) {
-	if (event.dataTransfer.dropEffect === 'move') {
+	if (event.dataTransfer.dropEffect === 'move') { //if drop successfull, ok
 		console.log("drop success")
-	} else {
+	} else { // if it didn't fit the grid, restore the ship to be placed again
 			$(dragObject).removeClass('used');
 			$(dragObject).attr('draggable', 'true');
 			console.log("drop failed")
@@ -201,15 +203,11 @@ document.addEventListener('dragend', function noDrop(event) {
 	}
 });
 
-function handleDragOver(event) {
+function handleDragOver(event) { // when dragging over the grid
 	if (event.preventDefault) {
 		event.preventDefault(); // Allow drop.
 	}
-	/*if (!$(this).hasClass('forbidden') && !$(this).hasClass('has-ship')) {
-		event.dataTransfer.dropEffect = 'move'; // move the object
-	} else {
-		event.dataTransfer.dropEffect = 'none'; // don't add ships to forbidden cells
-	}*/
+	// Don't allow ship placement on top of other ships or outside the grid
 	var hasShip = $(this).data('hasShip');
 	if ($(dragObject).hasClass('ship0')) {
 		if (hasShip >= 0 && hasShip < 5 || $(this).hasClass('forbidden')) {
@@ -219,44 +217,44 @@ function handleDragOver(event) {
 		}
 	} else if ($(dragObject).hasClass('ship1')) {
 		if (hasShip > 0 && hasShip < 5 || $(this).hasClass('forbidden')) {
-			event.dataTransfer.dropEffect = 'none'; // move the object
+			event.dataTransfer.dropEffect = 'none';
 		} else {
-			event.dataTransfer.dropEffect = 'move'; // don't add ships to forbidden cells
+			event.dataTransfer.dropEffect = 'move';
 		}
 	} else if ($(dragObject).hasClass('ship2') || $(dragObject).hasClass('ship3')) {
 		if (hasShip > 0 && hasShip < 4 || $(this).hasClass('forbidden')) {
-			event.dataTransfer.dropEffect = 'none'; // move the object
+			event.dataTransfer.dropEffect = 'none';
 		} else {
-			event.dataTransfer.dropEffect = 'move'; // don't add ships to forbidden cells
+			event.dataTransfer.dropEffect = 'move';
 		}
 	} else if ($(dragObject).hasClass('ship4') || $(dragObject).hasClass('ship3')) {
 		if (hasShip > 1 && hasShip < 4 || $(this).hasClass('forbidden')) {
-			event.dataTransfer.dropEffect = 'none'; // move the object
+			event.dataTransfer.dropEffect = 'none';
 		} else {
-			event.dataTransfer.dropEffect = 'move'; // don't add ships to forbidden cells
+			event.dataTransfer.dropEffect = 'move';
 		}
 	} else {
 		if (hasShip == 2 || $(this).hasClass('forbidden')) {
-			event.dataTransfer.dropEffect = 'none'; // move the object
+			event.dataTransfer.dropEffect = 'none';
 		} else {
-			event.dataTransfer.dropEffect = 'move'; // don't add ships to forbidden cells
+			event.dataTransfer.dropEffect = 'move';
 		}
 	}
 	return false;
 };
 
-// add over class to hover target
 function handleDragEnter(event) {
-	var tdId = $(this).prop('id');
-	var tdNumber = parseInt(tdId.substring(2,3));
-	var tdLetter = tdId.substring(0,2);
+	var tdId = $(this).prop('id'); // get id of the cell that's been hovered over
+	var tdNumber = parseInt(tdId.substring(2,3)); // substring cell column
+	var tdLetter = tdId.substring(0,2); // substring cell letter
 	if ($(dragObject).hasClass('ship0')) {
-		if (tdNumber <= 8 && tdNumber >= 3) {
+		if (tdNumber <= 8 && tdNumber >= 3) { // add hover effect showing ship position
 			for (var i=0; i<5; i++) {
 				var over = tdLetter + (tdNumber - 2 + i);
 				$('#' + over).addClass('over');
 			};
 		} else {
+			// restrict cells where part of the ship wouldn't fit the grid
 			$(this).addClass('forbidden');
 		}
 	} else if ($(dragObject).hasClass('ship1')) {
@@ -292,7 +290,7 @@ function handleDragEnter(event) {
 	};
 };
 
-// remove over class
+// remove over and forbidden class when leaving cell
 function handleDragLeave(event) {
 	$(this).removeClass('over');
 	$(this).siblings().removeClass('over');
@@ -308,24 +306,27 @@ function handleDrop(event) {
 	var tdId = $(this).prop('id');
 	var tdNumber = parseInt(tdId.substring(2,4));
 	var tdLetter = tdId.substring(0,2);
-	for (var i=0; i<shipArray.length; i++) {
-		if ($(dragObject).hasClass('ship' + i)) {
+	for (var i=0; i<shipArray.length; i++) { // take this to all the ships
+		if ($(dragObject).hasClass('ship' + i)) { // select the ship being dragged
 			var arrayImages = shipArray[i].intact;
 			var shipImages = [];
 			for (var j=0; j<arrayImages.length; j++) {
 				var image = new Image();
 				image.src = arrayImages[j];
 				image.setAttribute('class', 'ship' + i);
-				image.onmousedown = function(event) {
+				image.onmousedown = function(event) { // pravent ship from being copied
 					event.preventDefault();
 					return false;
 				};
-				shipImages.push(image)
+				shipImages.push(image) // push ship parts into shipImages array
 			};
 			for (var j=0; j<arrayImages.length; j++) {
 				if (arrayImages.length == 5) {
+					// add ship parts to seperate cells
 					$('#' + tdLetter + (tdNumber + (-2 + j))).append(shipImages[j]);
+					// add hasShip data-id to ship body
 					$('#' + tdLetter + (tdNumber + (-2 + j))).data('hasShip', 2);
+					// add data-ids to neighbouring cells
 					$('#' + tdLetter + (tdNumber -4)).data('hasShip', 0);
 					$('#' + tdLetter + (tdNumber -3)).data('hasShip', 1);
 					$('#' + tdLetter + (tdNumber +3)).data('hasShip', 3);
