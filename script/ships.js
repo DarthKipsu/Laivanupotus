@@ -154,7 +154,7 @@ $(document).ready(function() {
 	};
 });
 
-var dragSrcEl = null;
+var dragObject = null;
 
 // Change opacity while dragging
 function handleDragStart(event) {
@@ -164,7 +164,7 @@ function handleDragStart(event) {
 		event.preventDefault();
 		return false;
 	};
-	dragSrcEl = this;
+	dragObject = this;
 	event.dataTransfer.effectAllowed = 'move'; // allow moving object
 	event.dataTransfer.setData('image/png', this.innerHTML);
 	var dragIcon = document.createElement('img');
@@ -192,10 +192,10 @@ document.addEventListener('dragend', function noDrop(event) {
 	if (event.dataTransfer.dropEffect === 'move') {
 		console.log("drop success")
 	} else {
-			$(dragSrcEl).removeClass('used');
-			$(dragSrcEl).attr('draggable', 'true');
+			$(dragObject).removeClass('used');
+			$(dragObject).attr('draggable', 'true');
 			console.log("drop failed")
-			dragSrcEl.onmousedown = function(event) {
+			dragObject.onmousedown = function(event) {
 				return true;
 			};
 	}
@@ -205,10 +205,42 @@ function handleDragOver(event) {
 	if (event.preventDefault) {
 		event.preventDefault(); // Allow drop.
 	}
-	if (!$(this).hasClass('forbidden')) {
+	/*if (!$(this).hasClass('forbidden') && !$(this).hasClass('has-ship')) {
 		event.dataTransfer.dropEffect = 'move'; // move the object
 	} else {
 		event.dataTransfer.dropEffect = 'none'; // don't add ships to forbidden cells
+	}*/
+	var hasShip = $(this).data('hasShip');
+	if ($(dragObject).hasClass('ship0')) {
+		if (hasShip >= 0 && hasShip < 5 || $(this).hasClass('forbidden')) {
+			event.dataTransfer.dropEffect = 'none'; // move the object
+		} else {
+			event.dataTransfer.dropEffect = 'move'; // don't add ships to forbidden cells
+		}
+	} else if ($(dragObject).hasClass('ship1')) {
+		if (hasShip > 0 && hasShip < 5 || $(this).hasClass('forbidden')) {
+			event.dataTransfer.dropEffect = 'none'; // move the object
+		} else {
+			event.dataTransfer.dropEffect = 'move'; // don't add ships to forbidden cells
+		}
+	} else if ($(dragObject).hasClass('ship2') || $(dragObject).hasClass('ship3')) {
+		if (hasShip > 0 && hasShip < 4 || $(this).hasClass('forbidden')) {
+			event.dataTransfer.dropEffect = 'none'; // move the object
+		} else {
+			event.dataTransfer.dropEffect = 'move'; // don't add ships to forbidden cells
+		}
+	} else if ($(dragObject).hasClass('ship4') || $(dragObject).hasClass('ship3')) {
+		if (hasShip > 1 && hasShip < 4 || $(this).hasClass('forbidden')) {
+			event.dataTransfer.dropEffect = 'none'; // move the object
+		} else {
+			event.dataTransfer.dropEffect = 'move'; // don't add ships to forbidden cells
+		}
+	} else {
+		if (hasShip == 2 || $(this).hasClass('forbidden')) {
+			event.dataTransfer.dropEffect = 'none'; // move the object
+		} else {
+			event.dataTransfer.dropEffect = 'move'; // don't add ships to forbidden cells
+		}
 	}
 	return false;
 };
@@ -218,38 +250,38 @@ function handleDragEnter(event) {
 	var tdId = $(this).prop('id');
 	var tdNumber = parseInt(tdId.substring(2,3));
 	var tdLetter = tdId.substring(0,2);
-	if ($(dragSrcEl).hasClass('ship0')) {
+	if ($(dragObject).hasClass('ship0')) {
 		if (tdNumber <= 8 && tdNumber >= 3) {
 			for (var i=0; i<5; i++) {
-				var over = tdLetter + (tdNumber - 2 + i)
+				var over = tdLetter + (tdNumber - 2 + i);
 				$('#' + over).addClass('over');
 			};
 		} else {
 			$(this).addClass('forbidden');
 		}
-	} else if ($(dragSrcEl).hasClass('ship1')) {
+	} else if ($(dragObject).hasClass('ship1')) {
 		if (tdNumber <= 9 && tdNumber >= 3) {
 			for (var i=0; i<4; i++) {
-				var over = tdLetter + (tdNumber - 2 + i)
+				var over = tdLetter + (tdNumber - 2 + i);
 				$('#' + over).addClass('over');
 			};
 		} else {
 			$(this).addClass('forbidden');
 		}
-	} else if ($(dragSrcEl).hasClass('ship2') ||
-			$(dragSrcEl).hasClass('ship3')) {
+	} else if ($(dragObject).hasClass('ship2') ||
+			$(dragObject).hasClass('ship3')) {
 		if (tdNumber <= 9 && tdNumber >= 2) {
 			for (var i=0; i<3; i++) {
-				var over = tdLetter + (tdNumber - 1 + i)
+				var over = tdLetter + (tdNumber - 1 + i);
 				$('#' + over).addClass('over');
 			};
 		} else {
 			$(this).addClass('forbidden');
 		}
-	} else if ($(dragSrcEl).hasClass('ship4')) {
+	} else if ($(dragObject).hasClass('ship4')) {
 		if (tdNumber >= 2) {
 			for (var i=0; i<2; i++) {
-				var over = tdLetter + (tdNumber - 1 + i)
+				var over = tdLetter + (tdNumber - 1 + i);
 				$('#' + over).addClass('over');
 			};
 		} else {
@@ -277,7 +309,7 @@ function handleDrop(event) {
 	var tdNumber = parseInt(tdId.substring(2,4));
 	var tdLetter = tdId.substring(0,2);
 	for (var i=0; i<shipArray.length; i++) {
-		if ($(dragSrcEl).hasClass('ship' + i)) {
+		if ($(dragObject).hasClass('ship' + i)) {
 			var arrayImages = shipArray[i].intact;
 			var shipImages = [];
 			for (var j=0; j<arrayImages.length; j++) {
@@ -291,12 +323,41 @@ function handleDrop(event) {
 				shipImages.push(image)
 			};
 			for (var j=0; j<arrayImages.length; j++) {
-				if (arrayImages.length > 3) {
+				if (arrayImages.length == 5) {
 					$('#' + tdLetter + (tdNumber + (-2 + j))).append(shipImages[j]);
-				} else if (arrayImages.length > 1) {
+					$('#' + tdLetter + (tdNumber + (-2 + j))).data('hasShip', 2);
+					$('#' + tdLetter + (tdNumber -4)).data('hasShip', 0);
+					$('#' + tdLetter + (tdNumber -3)).data('hasShip', 1);
+					$('#' + tdLetter + (tdNumber +3)).data('hasShip', 3);
+					$('#' + tdLetter + (tdNumber +4)).data('hasShip', 4);
+				} else if (arrayImages.length == 4) {
+					$('#' + tdLetter + (tdNumber + (-2 + j))).append(shipImages[j]);
+					$('#' + tdLetter + (tdNumber + (-2 + j))).data('hasShip', 2);
+					$('#' + tdLetter + (tdNumber -4)).data('hasShip', 0);
+					$('#' + tdLetter + (tdNumber -3)).data('hasShip', 1);
+					$('#' + tdLetter + (tdNumber +2)).data('hasShip', 3);
+					$('#' + tdLetter + (tdNumber +3)).data('hasShip', 4);
+				} else if (arrayImages.length == 3) {
 					$('#' + tdLetter + (tdNumber + (-1 + j))).append(shipImages[j]);
+					$('#' + tdLetter + (tdNumber + (-1 + j))).data('hasShip', 2);
+					$('#' + tdLetter + (tdNumber -3)).data('hasShip', 0);
+					$('#' + tdLetter + (tdNumber -2)).data('hasShip', 1);
+					$('#' + tdLetter + (tdNumber +2)).data('hasShip', 3);
+					$('#' + tdLetter + (tdNumber +3)).data('hasShip', 4);
+				} else if (arrayImages.length == 2) {
+					$('#' + tdLetter + (tdNumber + (-1 + j))).append(shipImages[j]);
+					$('#' + tdLetter + (tdNumber + (-1 + j))).data('hasShip', 2);
+					$('#' + tdLetter + (tdNumber -3)).data('hasShip', 0);
+					$('#' + tdLetter + (tdNumber -2)).data('hasShip', 1);
+					$('#' + tdLetter + (tdNumber +1)).data('hasShip', 3);
+					$('#' + tdLetter + (tdNumber +2)).data('hasShip', 4);
 				} else {
 					$('#' + tdLetter + (tdNumber)).append(shipImages[j]);
+					$('#' + tdLetter + (tdNumber)).data('hasShip', 2);
+					$('#' + tdLetter + (tdNumber -2)).data('hasShip', 0);
+					$('#' + tdLetter + (tdNumber -1)).data('hasShip', 1);
+					$('#' + tdLetter + (tdNumber +1)).data('hasShip', 3);
+					$('#' + tdLetter + (tdNumber +2)).data('hasShip', 4);
 				}
 			};
 		}
