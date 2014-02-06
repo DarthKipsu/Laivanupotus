@@ -80,6 +80,11 @@ td img {
 	margin: 0 -1px 0 0;
 }
 
+td img.rotate90 {
+	float: right;
+	margin: 0 0 -1px 0;
+}
+
 .over {
 	background-color: #6db3f2;
 }
