@@ -175,6 +175,9 @@ function handleDragStart(event) {
 	}
 	if ($(this).hasClass('ship0')) {
 		dragIcon.src = 'ships/aircraft_carrier.png';
+		/*if ($(this).hasClass('rotate90')) {
+			dragIcon.addClass('rotate90');
+		}*/
 		event.dataTransfer.setDragImage(dragIcon, 77, 15); // grap coordinates
 	} else if ($(this).hasClass('ship1')) {
 		dragIcon.src = 'ships/battleship.png';
@@ -363,6 +366,7 @@ function handleDrop(event) {
 	var tdId = $(this).prop('id');
 	var tdNumber = parseInt(tdId.substring(2,4));
 	var tdLetter = tdId.substring(0,2);
+	var letterHex = tdId.substring(0,1).charCodeAt(0);
 	for (var i=0; i<shipArray.length; i++) { // take this to all the ships
 		if ($(dragObject).hasClass('ship' + i)) { // select the ship being dragged
 			var arrayImages = shipArray[i].intact;
@@ -371,6 +375,9 @@ function handleDrop(event) {
 				var image = new Image();
 				image.src = arrayImages[j];
 				image.setAttribute('class', 'ship' + i);
+				if ($(dragObject).hasClass('rotate90')) {
+					image.setAttribute('class', 'rotate90');
+				}
 				image.onmousedown = function(event) { // pravent ship from being copied
 					event.preventDefault();
 					return false;
@@ -379,36 +386,56 @@ function handleDrop(event) {
 			};
 			for (var j=0; j<arrayImages.length; j++) {
 				if (arrayImages.length == 5) {
-					// add ship parts to seperate cells
-					$('#' + tdLetter + (tdNumber + (-2 + j))).append(shipImages[j]);
-					// add hasShip data-id to ship body
-					$('#' + tdLetter + (tdNumber + (-2 + j))).data('hasShip', 2);
-					// add data-ids to neighbouring cells
-					$('#' + tdLetter + (tdNumber -4)).data('hasShip', 0);
-					$('#' + tdLetter + (tdNumber -3)).data('hasShip', 1);
-					$('#' + tdLetter + (tdNumber +3)).data('hasShip', 3);
-					$('#' + tdLetter + (tdNumber +4)).data('hasShip', 4);
+					if ($(dragObject).hasClass('rotate90')) {
+						var letterString = String.fromCharCode(letterHex + 2 - j) + '-';
+						$('#' + letterString + tdNumber).append(shipImages[j]);
+					} else {
+						// add ship parts to seperate cells
+						$('#' + tdLetter + (tdNumber + (-2 + j))).append(shipImages[j]);
+						// add hasShip data-id to ship body
+						$('#' + tdLetter + (tdNumber + (-2 + j))).data('hasShip', 2);
+						// add data-ids to neighbouring cells
+						$('#' + tdLetter + (tdNumber -4)).data('hasShip', 0);
+						$('#' + tdLetter + (tdNumber -3)).data('hasShip', 1);
+						$('#' + tdLetter + (tdNumber +3)).data('hasShip', 3);
+						$('#' + tdLetter + (tdNumber +4)).data('hasShip', 4);
+					}
 				} else if (arrayImages.length == 4) {
-					$('#' + tdLetter + (tdNumber + (-2 + j))).append(shipImages[j]);
-					$('#' + tdLetter + (tdNumber + (-2 + j))).data('hasShip', 2);
-					$('#' + tdLetter + (tdNumber -4)).data('hasShip', 0);
-					$('#' + tdLetter + (tdNumber -3)).data('hasShip', 1);
-					$('#' + tdLetter + (tdNumber +2)).data('hasShip', 3);
-					$('#' + tdLetter + (tdNumber +3)).data('hasShip', 4);
+					if ($(dragObject).hasClass('rotate90')) {
+						var letterString = String.fromCharCode(letterHex + 2 - j) + '-';
+						$('#' + letterString + tdNumber).append(shipImages[j]);
+					} else {
+						$('#' + tdLetter + (tdNumber + (-2 + j))).append(shipImages[j]);
+						$('#' + tdLetter + (tdNumber + (-2 + j))).data('hasShip', 2);
+						$('#' + tdLetter + (tdNumber -4)).data('hasShip', 0);
+						$('#' + tdLetter + (tdNumber -3)).data('hasShip', 1);
+						$('#' + tdLetter + (tdNumber +2)).data('hasShip', 3);
+						$('#' + tdLetter + (tdNumber +3)).data('hasShip', 4);
+					}
 				} else if (arrayImages.length == 3) {
-					$('#' + tdLetter + (tdNumber + (-1 + j))).append(shipImages[j]);
-					$('#' + tdLetter + (tdNumber + (-1 + j))).data('hasShip', 2);
-					$('#' + tdLetter + (tdNumber -3)).data('hasShip', 0);
-					$('#' + tdLetter + (tdNumber -2)).data('hasShip', 1);
-					$('#' + tdLetter + (tdNumber +2)).data('hasShip', 3);
-					$('#' + tdLetter + (tdNumber +3)).data('hasShip', 4);
+					if ($(dragObject).hasClass('rotate90')) {
+						var letterString = String.fromCharCode(letterHex + 1 - j) + '-';
+						$('#' + letterString + tdNumber).append(shipImages[j]);
+					} else {
+						$('#' + tdLetter + (tdNumber + (-1 + j))).append(shipImages[j]);
+						$('#' + tdLetter + (tdNumber + (-1 + j))).data('hasShip', 2);
+						$('#' + tdLetter + (tdNumber -3)).data('hasShip', 0);
+						$('#' + tdLetter + (tdNumber -2)).data('hasShip', 1);
+						$('#' + tdLetter + (tdNumber +2)).data('hasShip', 3);
+						$('#' + tdLetter + (tdNumber +3)).data('hasShip', 4);
+					}
 				} else if (arrayImages.length == 2) {
-					$('#' + tdLetter + (tdNumber + (-1 + j))).append(shipImages[j]);
-					$('#' + tdLetter + (tdNumber + (-1 + j))).data('hasShip', 2);
-					$('#' + tdLetter + (tdNumber -3)).data('hasShip', 0);
-					$('#' + tdLetter + (tdNumber -2)).data('hasShip', 1);
-					$('#' + tdLetter + (tdNumber +1)).data('hasShip', 3);
-					$('#' + tdLetter + (tdNumber +2)).data('hasShip', 4);
+					if ($(dragObject).hasClass('rotate90')) {
+						var letterString = String.fromCharCode(letterHex + 1 - j) + '-';
+						$('#' + letterString + tdNumber).append(shipImages[j]);
+					} else {
+						$('#' + tdLetter + (tdNumber + (-1 + j))).append(shipImages[j]);
+						$('#' + tdLetter + (tdNumber + (-1 + j))).data('hasShip', 2);
+						$('#' + tdLetter + (tdNumber -3)).data('hasShip', 0);
+						$('#' + tdLetter + (tdNumber -2)).data('hasShip', 1);
+						$('#' + tdLetter + (tdNumber +1)).data('hasShip', 3);
+						$('#' + tdLetter + (tdNumber +2)).data('hasShip', 4);
+					}
 				} else {
 					$('#' + tdLetter + (tdNumber)).append(shipImages[j]);
 					$('#' + tdLetter + (tdNumber)).data('hasShip', 2);
