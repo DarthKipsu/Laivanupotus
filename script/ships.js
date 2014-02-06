@@ -170,6 +170,9 @@ function handleDragStart(event) {
 	event.dataTransfer.setData('image/png', this.innerHTML);
 	// add custom drag images, to control where the object is on grid
 	var dragIcon = document.createElement('img');
+	if ($(this).hasClass('rotate90')) {
+		dragIcon.addClass('rotate90');
+	}
 	if ($(this).hasClass('ship0')) {
 		dragIcon.src = 'ships/aircraft_carrier.png';
 		event.dataTransfer.setDragImage(dragIcon, 77, 15); // grap coordinates
@@ -245,17 +248,31 @@ function handleDragOver(event) { // when dragging over the grid
 
 function handleDragEnter(event) {
 	var tdId = $(this).prop('id'); // get id of the cell that's been hovered over
-	var tdNumber = parseInt(tdId.substring(2,3)); // substring cell column
+	var tdNumber = parseInt(tdId.substring(2,4)); // substring cell column
 	var tdLetter = tdId.substring(0,2); // substring cell letter
+	var letterHex = tdId.substring(0,1).charCodeAt(0); // transfrom the cell lette to Hex
 	if ($(dragObject).hasClass('ship0')) {
-		if (tdNumber <= 8 && tdNumber >= 3) { // add hover effect showing ship position
-			for (var i=0; i<5; i++) {
-				var over = tdLetter + (tdNumber - 2 + i);
-				$('#' + over).addClass('over');
-			};
+		if ($(dragObject).hasClass('rotate90')) {
+			if (letterHex <= 72 && letterHex >= 67) { // add hover effect showing ship position
+				for (var i=0; i<5; i++) {
+					var letterString = String.fromCharCode(letterHex - 2 + i) + '-';
+					var over = letterString + tdNumber;
+					$('#' + over).addClass('over');
+				};
+			} else {
+				// restrict cells where part of the ship wouldn't fit the grid
+				$(this).addClass('forbidden');
+			}
 		} else {
-			// restrict cells where part of the ship wouldn't fit the grid
-			$(this).addClass('forbidden');
+			if (tdNumber <= 8 && tdNumber >= 3) { // add hover effect showing ship position
+				for (var i=0; i<5; i++) {
+					var over = tdLetter + (tdNumber - 2 + i);
+					$('#' + over).addClass('over');
+				};
+			} else {
+				// restrict cells where part of the ship wouldn't fit the grid
+				$(this).addClass('forbidden');
+			}
 		}
 	} else if ($(dragObject).hasClass('ship1')) {
 		if (tdNumber <= 9 && tdNumber >= 3) {
@@ -292,8 +309,13 @@ function handleDragEnter(event) {
 
 // remove over and forbidden class when leaving cell
 function handleDragLeave(event) {
-	$(this).removeClass('over');
-	$(this).siblings().removeClass('over');
+	if ($(dragObject).hasClass('rotate90')) {
+		var oldClass = $(this).prop('class').substring(0,5).trim();
+		$('td.' + oldClass).removeClass('over');
+		console.log(oldClass);
+	} else {
+		$(this).siblings().andSelf().removeClass('over');
+	}
 	$(this).removeClass('forbidden');
 };
 
