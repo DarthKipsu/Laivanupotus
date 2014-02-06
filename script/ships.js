@@ -423,8 +423,8 @@ function handleDrop(event) {
 						var letterString = String.fromCharCode(letterHex + 2 - j) + '-';
 						$('#' + letterString + tdNumber).append(shipImages[j]);
 						$('#' + letterString + tdNumber).data('hasShip', 2);
-						$('#' + String.fromCharCode(letterHex - 4) + '-' + tdNumber).data('hasRotShip', 5);
-						$('#' + String.fromCharCode(letterHex - 3) + '-' + tdNumber).data('hasRotShip', 6);
+						if (letterHex >= 69) $('#' + String.fromCharCode(letterHex - 4) + '-' + tdNumber).data('hasRotShip', 5);
+						if (letterHex >= 68) $('#' + String.fromCharCode(letterHex - 3) + '-' + tdNumber).data('hasRotShip', 6);
 						$('#' + String.fromCharCode(letterHex + 3) + '-' + tdNumber).data('hasRotShip', 7);
 						$('#' + String.fromCharCode(letterHex + 4) + '-' + tdNumber).data('hasRotShip', 8);
 						for (var k=0; k<arrayImages.length; k++) {
@@ -444,14 +444,14 @@ function handleDrop(event) {
 						$('#' + tdLetter + (tdNumber -3)).data('hasShip', 1);
 						$('#' + tdLetter + (tdNumber +3)).data('hasShip', 3);
 						$('#' + tdLetter + (tdNumber +4)).data('hasShip', 4);
-						for (var k=0; k<arrayImages.length; k++) {
+						if (letterHex >= 69) {for (var k=0; k<arrayImages.length; k++) {
 							var letterString = String.fromCharCode(letterHex - 2) + '-';
 							$('#' + letterString + (tdNumber + (-2 + j))).data('hasRotShip', 5);
-						}
-						for (var k=0; k<arrayImages.length; k++) {
+						}}
+						if (letterHex >= 68) {for (var k=0; k<arrayImages.length; k++) {
 							var letterString = String.fromCharCode(letterHex - 1) + '-';
 							$('#' + letterString + (tdNumber + (-2 + j))).data('hasRotShip', 6);
-						}
+						}}
 						for (var k=0; k<arrayImages.length; k++) {
 							var letterString = String.fromCharCode(letterHex + 1) + '-';
 							$('#' + letterString + (tdNumber + (-2 + j))).data('hasRotShip', 7);
@@ -466,8 +466,8 @@ function handleDrop(event) {
 						var letterString = String.fromCharCode(letterHex + 2 - j) + '-';
 						$('#' + letterString + tdNumber).append(shipImages[j]);
 						$('#' + letterString + tdNumber).data('hasShip', 2);
-						$('#' + String.fromCharCode(letterHex - 3) + '-' + tdNumber).data('hasRotShip', 5);
-						$('#' + String.fromCharCode(letterHex - 2) + '-' + tdNumber).data('hasRotShip', 6);
+						if (letterHex >= 68) $('#' + String.fromCharCode(letterHex - 3) + '-' + tdNumber).data('hasRotShip', 5);
+						if (letterHex >= 67) $('#' + String.fromCharCode(letterHex - 2) + '-' + tdNumber).data('hasRotShip', 6);
 						$('#' + String.fromCharCode(letterHex + 3) + '-' + tdNumber).data('hasRotShip', 7);
 						$('#' + String.fromCharCode(letterHex + 4) + '-' + tdNumber).data('hasRotShip', 8);
 						for (var k=0; k<arrayImages.length; k++) {
@@ -484,14 +484,14 @@ function handleDrop(event) {
 						$('#' + tdLetter + (tdNumber -3)).data('hasShip', 1);
 						$('#' + tdLetter + (tdNumber +2)).data('hasShip', 3);
 						$('#' + tdLetter + (tdNumber +3)).data('hasShip', 4);
-						for (var k=0; k<arrayImages.length; k++) {
+						if (letterHex >= 68) {for (var k=0; k<arrayImages.length; k++) {
 							var letterString = String.fromCharCode(letterHex - 2) + '-';
 							$('#' + letterString + (tdNumber + (-2 + j))).data('hasRotShip', 5);
-						}
-						for (var k=0; k<arrayImages.length; k++) {
+						}}
+						if (letterHex >= 67) {for (var k=0; k<arrayImages.length; k++) {
 							var letterString = String.fromCharCode(letterHex - 1) + '-';
 							$('#' + letterString + (tdNumber + (-2 + j))).data('hasRotShip', 6);
-						}
+						}}
 						for (var k=0; k<arrayImages.length; k++) {
 							var letterString = String.fromCharCode(letterHex + 1) + '-';
 							$('#' + letterString + (tdNumber + (-2 + j))).data('hasRotShip', 7);
@@ -506,8 +506,8 @@ function handleDrop(event) {
 						var letterString = String.fromCharCode(letterHex + 1 - j) + '-';
 						$('#' + letterString + tdNumber).append(shipImages[j]);
 						$('#' + letterString + tdNumber).data('hasShip', 2);
-						$('#' + String.fromCharCode(letterHex - 3) + '-' + tdNumber).data('hasRotShip', 5);
-						$('#' + String.fromCharCode(letterHex - 2) + '-' + tdNumber).data('hasRotShip', 6);
+						if (letterHex >= 68) $('#' + String.fromCharCode(letterHex - 3) + '-' + tdNumber).data('hasRotShip', 5);
+						if (letterHex >= 67) $('#' + String.fromCharCode(letterHex - 2) + '-' + tdNumber).data('hasRotShip', 6);
 						$('#' + String.fromCharCode(letterHex + 2) + '-' + tdNumber).data('hasRotShip', 7);
 						$('#' + String.fromCharCode(letterHex + 3) + '-' + tdNumber).data('hasRotShip', 8);
 						for (var k=0; k<arrayImages.length; k++) {
@@ -524,14 +524,14 @@ function handleDrop(event) {
 						$('#' + tdLetter + (tdNumber -2)).data('hasShip', 1);
 						$('#' + tdLetter + (tdNumber +2)).data('hasShip', 3);
 						$('#' + tdLetter + (tdNumber +3)).data('hasShip', 4);
-						for (var k=0; k<arrayImages.length; k++) {
+						if (letterHex >= 68) {for (var k=0; k<arrayImages.length; k++) {
 							var letterString = String.fromCharCode(letterHex - 2) + '-';
 							$('#' + letterString + (tdNumber + (-1 + j))).data('hasRotShip', 5);
-						}
-						for (var k=0; k<arrayImages.length; k++) {
+						}}
+						if (letterHex >= 67) {for (var k=0; k<arrayImages.length; k++) {
 							var letterString = String.fromCharCode(letterHex - 1) + '-';
 							$('#' + letterString + (tdNumber + (-1 + j))).data('hasRotShip', 6);
-						}
+						}}
 						for (var k=0; k<arrayImages.length; k++) {
 							var letterString = String.fromCharCode(letterHex + 1) + '-';
 							$('#' + letterString + (tdNumber + (-1 + j))).data('hasRotShip', 7);
@@ -546,8 +546,8 @@ function handleDrop(event) {
 						var letterString = String.fromCharCode(letterHex + 1 - j) + '-';
 						$('#' + letterString + tdNumber).append(shipImages[j]);
 						$('#' + letterString + tdNumber).data('hasShip', 2);
-						$('#' + String.fromCharCode(letterHex - 2) + '-' + tdNumber).data('hasRotShip', 5);
-						$('#' + String.fromCharCode(letterHex - 1) + '-' + tdNumber).data('hasRotShip', 6);
+						if (letterHex >= 67) $('#' + String.fromCharCode(letterHex - 2) + '-' + tdNumber).data('hasRotShip', 5);
+						if (letterHex >= 66) $('#' + String.fromCharCode(letterHex - 1) + '-' + tdNumber).data('hasRotShip', 6);
 						$('#' + String.fromCharCode(letterHex + 2) + '-' + tdNumber).data('hasRotShip', 7);
 						$('#' + String.fromCharCode(letterHex + 3) + '-' + tdNumber).data('hasRotShip', 8);
 						for (var k=0; k<arrayImages.length; k++) {
@@ -564,14 +564,14 @@ function handleDrop(event) {
 						$('#' + tdLetter + (tdNumber -2)).data('hasShip', 1);
 						$('#' + tdLetter + (tdNumber +1)).data('hasShip', 3);
 						$('#' + tdLetter + (tdNumber +2)).data('hasShip', 4);
-						for (var k=0; k<arrayImages.length; k++) {
+						if (letterHex >= 67) {for (var k=0; k<arrayImages.length; k++) {
 							var letterString = String.fromCharCode(letterHex - 2) + '-';
 							$('#' + letterString + (tdNumber + (-1 + j))).data('hasRotShip', 5);
-						}
-						for (var k=0; k<arrayImages.length; k++) {
+						}}
+						if (letterHex >= 66) {for (var k=0; k<arrayImages.length; k++) {
 							var letterString = String.fromCharCode(letterHex - 1) + '-';
 							$('#' + letterString + (tdNumber + (-1 + j))).data('hasRotShip', 6);
-						}
+						}}
 						for (var k=0; k<arrayImages.length; k++) {
 							var letterString = String.fromCharCode(letterHex + 1) + '-';
 							$('#' + letterString + (tdNumber + (-1 + j))).data('hasRotShip', 7);
@@ -588,8 +588,8 @@ function handleDrop(event) {
 					$('#' + tdLetter + (tdNumber -1)).data('hasShip', 1);
 					$('#' + tdLetter + (tdNumber +1)).data('hasShip', 3);
 					$('#' + tdLetter + (tdNumber +2)).data('hasShip', 4);
-					$('#' + String.fromCharCode(letterHex - 2) + '-' + tdNumber).data('hasRotShip', 5);
-					$('#' + String.fromCharCode(letterHex - 1) + '-' + tdNumber).data('hasRotShip', 6);
+					if (letterHex >= 67) $('#' + String.fromCharCode(letterHex - 2) + '-' + tdNumber).data('hasRotShip', 5);
+					if (letterHex >= 66) $('#' + String.fromCharCode(letterHex - 1) + '-' + tdNumber).data('hasRotShip', 6);
 					$('#' + String.fromCharCode(letterHex + 1) + '-' + tdNumber).data('hasRotShip', 7);
 					$('#' + String.fromCharCode(letterHex + 2) + '-' + tdNumber).data('hasRotShip', 8);
 				}
