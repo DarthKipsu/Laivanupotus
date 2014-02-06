@@ -253,7 +253,7 @@ function handleDragEnter(event) {
 	var letterHex = tdId.substring(0,1).charCodeAt(0); // transfrom the cell lette to Hex
 	if ($(dragObject).hasClass('ship0')) {
 		if ($(dragObject).hasClass('rotate90')) {
-			if (letterHex <= 72 && letterHex >= 67) { // add hover effect showing ship position
+			if (letterHex <= 72 && letterHex >= 67) { // add hover effect showing rotated ship position
 				for (var i=0; i<5; i++) {
 					var letterString = String.fromCharCode(letterHex - 2 + i) + '-';
 					var over = letterString + tdNumber;
@@ -275,32 +275,68 @@ function handleDragEnter(event) {
 			}
 		}
 	} else if ($(dragObject).hasClass('ship1')) {
-		if (tdNumber <= 9 && tdNumber >= 3) {
-			for (var i=0; i<4; i++) {
-				var over = tdLetter + (tdNumber - 2 + i);
-				$('#' + over).addClass('over');
-			};
+		if ($(dragObject).hasClass('rotate90')) {
+			if (letterHex <= 72 && letterHex >= 66) {
+				for (var i=0; i<4; i++) {
+					var letterString = String.fromCharCode(letterHex - 1 + i) + '-';
+					var over = letterString + tdNumber;
+					$('#' + over).addClass('over');
+				};
+			} else {
+				$(this).addClass('forbidden');
+			}
 		} else {
-			$(this).addClass('forbidden');
+			if (tdNumber <= 9 && tdNumber >= 3) {
+				for (var i=0; i<4; i++) {
+					var over = tdLetter + (tdNumber - 2 + i);
+					$('#' + over).addClass('over');
+				};
+			} else {
+				$(this).addClass('forbidden');
+			}
 		}
 	} else if ($(dragObject).hasClass('ship2') ||
 			$(dragObject).hasClass('ship3')) {
-		if (tdNumber <= 9 && tdNumber >= 2) {
-			for (var i=0; i<3; i++) {
-				var over = tdLetter + (tdNumber - 1 + i);
-				$('#' + over).addClass('over');
-			};
+		if ($(dragObject).hasClass('rotate90')) {
+			if (letterHex <= 73 && letterHex >= 66) {
+				for (var i=0; i<3; i++) {
+					var letterString = String.fromCharCode(letterHex - 1 + i) + '-';
+					var over = letterString + tdNumber;
+					$('#' + over).addClass('over');
+				};
+			} else {
+				$(this).addClass('forbidden');
+			}
 		} else {
-			$(this).addClass('forbidden');
+			if (tdNumber <= 9 && tdNumber >= 2) {
+				for (var i=0; i<3; i++) {
+					var over = tdLetter + (tdNumber - 1 + i);
+					$('#' + over).addClass('over');
+				};
+			} else {
+				$(this).addClass('forbidden');
+			}
 		}
 	} else if ($(dragObject).hasClass('ship4')) {
-		if (tdNumber >= 2) {
-			for (var i=0; i<2; i++) {
-				var over = tdLetter + (tdNumber - 1 + i);
-				$('#' + over).addClass('over');
-			};
+		if ($(dragObject).hasClass('rotate90')) {
+			if (letterHex <= 73 && letterHex >= 65) {
+				for (var i=0; i<2; i++) {
+					var letterString = String.fromCharCode(letterHex + i) + '-';
+					var over = letterString + tdNumber;
+					$('#' + over).addClass('over');
+				};
+			} else {
+				$(this).addClass('forbidden');
+			}
 		} else {
-			$(this).addClass('forbidden');
+			if (tdNumber >= 2) {
+				for (var i=0; i<2; i++) {
+					var over = tdLetter + (tdNumber - 1 + i);
+					$('#' + over).addClass('over');
+				};
+			} else {
+				$(this).addClass('forbidden');
+			}
 		}
 	} else {
 		$(this).addClass('over');
@@ -312,7 +348,6 @@ function handleDragLeave(event) {
 	if ($(dragObject).hasClass('rotate90')) {
 		var oldClass = $(this).prop('class').substring(0,5).trim();
 		$('td.' + oldClass).removeClass('over');
-		console.log(oldClass);
 	} else {
 		$(this).siblings().andSelf().removeClass('over');
 	}
