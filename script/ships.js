@@ -170,25 +170,38 @@ function handleDragStart(event) {
 	event.dataTransfer.setData('image/png', this.innerHTML);
 	// add custom drag images, to control where the object is on grid
 	var dragIcon = document.createElement('img');
-	if ($(this).hasClass('rotate90')) {
-		dragIcon.addClass('rotate90');
-	}
 	if ($(this).hasClass('ship0')) {
-		dragIcon.src = 'ships/aircraft_carrier.png';
-		/*if ($(this).hasClass('rotate90')) {
-			dragIcon.addClass('rotate90');
-		}*/
-		event.dataTransfer.setDragImage(dragIcon, 77, 15); // grap coordinates
+		if ($(this).hasClass('rotate90')) {
+			dragIcon.src = 'ships/aircraft_carrier_rot.png';
+			event.dataTransfer.setDragImage(dragIcon, 15, 77);
+		} else {
+			dragIcon.src = 'ships/aircraft_carrier.png';
+			event.dataTransfer.setDragImage(dragIcon, 77, 15); // grap coordinates
+		}
 	} else if ($(this).hasClass('ship1')) {
-		dragIcon.src = 'ships/battleship.png';
-		event.dataTransfer.setDragImage(dragIcon, 77, 15);
-	} else if ($(this).hasClass('ship2') ||
-			$(this).hasClass('ship3')) {
-		dragIcon.src = 'ships/cruiser.png';
-		event.dataTransfer.setDragImage(dragIcon, 46, 15);
+		if ($(this).hasClass('rotate90')) {
+			dragIcon.src = 'ships/battleship_rot.png';
+			event.dataTransfer.setDragImage(dragIcon, 15, 77);
+		} else {
+			dragIcon.src = 'ships/battleship.png';
+			event.dataTransfer.setDragImage(dragIcon, 77, 15);
+		}
+	} else if ($(this).hasClass('ship2') || $(this).hasClass('ship3')) {
+		if ($(this).hasClass('rotate90')) {
+			dragIcon.src = 'ships/cruiser_rot.png';
+			event.dataTransfer.setDragImage(dragIcon, 15, 46);
+		} else {
+			dragIcon.src = 'ships/cruiser.png';
+			event.dataTransfer.setDragImage(dragIcon, 46, 15);
+		}
 	} else if ($(this).hasClass('ship4')) {
-		dragIcon.src = 'ships/destroyer.png';
-		event.dataTransfer.setDragImage(dragIcon, 46, 15);
+		if ($(this).hasClass('rotate90')) {
+			dragIcon.src = 'ships/destroyer_rot.png';
+			event.dataTransfer.setDragImage(dragIcon, 15, 15);
+		} else {
+			dragIcon.src = 'ships/destroyer.png';
+			event.dataTransfer.setDragImage(dragIcon, 46, 15);
+		}
 	} else if ($(this).hasClass('ship5')) {
 		dragIcon.src = 'ships/submarine.png';
 		event.dataTransfer.setDragImage(dragIcon, 15, 15);
