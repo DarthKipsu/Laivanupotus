@@ -61,6 +61,7 @@ p {
 table {
 	border-collapse: collapse;
 	display: inline-block;
+	margin-right: 10px;
 }
 
 td, th {

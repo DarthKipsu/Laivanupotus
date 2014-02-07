@@ -403,12 +403,15 @@ function handleDragOver(event) { // when dragging over the grid
 	return false;
 };
 
+var placedShips = 0;
+
 // Drop the ship
 function handleDrop(event) {
 	if (event.stopPropagation) {
 		event.stopPropagation(); // stops browser redirects
 	}
 	event.preventDefault(); // stops browser image dropping
+	placedShips += 1;
 	var tdId = $(this).prop('id');
 	var tdNumber = parseInt(tdId.substring(2,4));
 	var tdLetter = tdId.substring(0,2);
