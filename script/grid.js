@@ -1,5 +1,5 @@
 // creates game grid
-function createTable(id) {
+function createTable(id, pre) {
 	var table = document.createElement('table');
 	table.id = id;
 	var tr = document.createElement('tr');
@@ -21,8 +21,8 @@ function createTable(id) {
 		tr.appendChild(th);
 		for (var j=0; j<10; j++) {
 			var td = document.createElement('td');
-			td.id = String.fromCharCode(i + 65) + "-" + (j + 1);
-			td.className = 'col' + (j + 1);
+			td.id = pre + String.fromCharCode(i + 65) + "-" + (j + 1);
+			td.className = pre + 'col' + (j + 1);
 			var div = document.createElement('div');
 			tr.appendChild(td);
 		};
@@ -33,18 +33,18 @@ function createTable(id) {
 
 // call grid in the beginning
 $(document).ready(function() {
-	$(createTable('player')).insertBefore('#ship-wrapper');
+	$(createTable('player', '')).insertBefore('#ship-wrapper');
 });
 
 // hover columns and rows
 $(document).ready(function() {
 	var columnNumber;
-	$('td').mouseenter(function() {
+	$('body').on('mouseenter', 'td', function() {
 		$(this).siblings().addClass('hover');
 		columnNumber = $(this).attr('class');
 		$("." + columnNumber).addClass('hover');
 	});
-	$('td').mouseleave(function() {
+	$('body').on('mouseleave', 'td', function() {
 		$(this).siblings().removeClass('hover');
 		$("." + columnNumber).removeClass('hover');
 	});

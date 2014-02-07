@@ -7,9 +7,9 @@ $(document).ready(function() {
 	});
 	$('#game-starter').click(function() {
 		if (placedShips == 6) {
-			$('#ship-wrapper, #rotate').hide();
+			$('#ship-wrapper, #rotate, #game-starter').hide();
 			$('#wrapper').css('width', '705')
-			$(createTable('player')).insertBefore('#player');
+			$(createTable('computer', "ai")).insertBefore('#player');
 		};
 		console.log(placedShips);
 	});
