@@ -7,7 +7,7 @@ $(document).ready(function() {
 	});
 	$('#game-starter, #override').click(function() {
 		if (placedShips == 6 || $(this).is('#override')) {
-			$('#ship-wrapper, #rotate, #game-starter, #instructions').hide();
+			$('#ship-wrapper, #rotate, #game-starter, #instructions, #override').hide();
 			$('#wrapper').css('width', '705')
 			$(createTable('computer', "ai")).insertBefore('#player');
 			aiShipPlacement();
