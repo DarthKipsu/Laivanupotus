@@ -19,7 +19,7 @@ function aiShipPlacement() { // place ships on ai map
 				}
 				if (hasAiShip == 0) {
 					for (var j=0; j<shipLength; j++) {
-						$('#ai' + randomLine + "-" + (randomCell + j)).css('background-color', '#ffffff');
+						//$('#ai' + randomLine + "-" + (randomCell + j)).css('background-color', '#ffffff');
 						$('#ai' + randomLine + "-" + (randomCell + j)).data('hasAiShip', (i+1));
 					}
 					placed = 1
@@ -42,7 +42,7 @@ function aiShipPlacement() { // place ships on ai map
 				}
 				if (hasAiShip == 0) {
 					for (var j=0; j<shipLength; j++) {
-						$('#ai' + String.fromCharCode(randomLine + j) + "-" + randomCell).css('background-color', '#ffffff');
+						//$('#ai' + String.fromCharCode(randomLine + j) + "-" + randomCell).css('background-color', '#ffffff');
 						$('#ai' + String.fromCharCode(randomLine + j) + "-" + randomCell).data('hasAiShip', (i+1));
 					}
 					placed = 1

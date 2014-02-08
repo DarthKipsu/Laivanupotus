@@ -38,14 +38,26 @@ $(document).ready(function() {
 
 // hover columns and rows
 $(document).ready(function() {
-	var columnNumber;
 	$('body').on('mouseenter', 'td', function() {
+		var columnId = $(this).prop('id');
+		var columnNumber;
+		if (columnId.length >= 5) {
+			columnNumber = parseInt(columnId.substring(4,6)) + 1;
+		} else {
+			columnNumber = parseInt(columnId.substring(2,4)) + 1;
+		}
 		$(this).siblings().addClass('hover');
-		columnNumber = $(this).attr('class');
-		$("." + columnNumber).addClass('hover');
+		$(this).closest('table').find('tr td:nth-child(' + columnNumber + ')').addClass('hover');
 	});
 	$('body').on('mouseleave', 'td', function() {
+		var columnId = $(this).prop('id');
+		var columnNumber;
+		if (columnId.length >= 5) {
+			columnNumber = parseInt(columnId.substring(4,6)) + 1;
+		} else {
+			columnNumber = parseInt(columnId.substring(2,4)) + 1;
+		}
 		$(this).siblings().removeClass('hover');
-		$("." + columnNumber).removeClass('hover');
+		$(this).closest('table').find('tr td:nth-child(' + columnNumber + ')').removeClass('hover');
 	});
 });

@@ -11,9 +11,9 @@ $(document).ready(function() {
 			$('#wrapper').css('width', '705')
 			$(createTable('computer', "ai")).insertBefore('#player');
 			aiShipPlacement();
-			//$('<p>Computer | Player</p>').insertBefore('#wrapper');
+			$('<p id="player-first">Your turn. Place a bomb anywhere on the left grid by clicking on it.</p>').insertBefore('#wrapper');
+			turn = 'player';
 		};
-		console.log(placedShips);
 	});
 	$('#rotate').click(function() {
 		if ($('p img').hasClass('rotate90')) {
