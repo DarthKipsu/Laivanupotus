@@ -5,11 +5,13 @@ $(document).ready(function() {
 	$('#game-starter, #rotate').mouseleave(function() {
 		$(this).removeClass('hover');
 	});
-	$('#game-starter').click(function() {
-		if (placedShips == 6) {
-			$('#ship-wrapper, #rotate, #game-starter').hide();
+	$('#game-starter, #override').click(function() {
+		if (placedShips == 6 || $(this).is('#override')) {
+			$('#ship-wrapper, #rotate, #game-starter, #instructions').hide();
 			$('#wrapper').css('width', '705')
 			$(createTable('computer', "ai")).insertBefore('#player');
+			aiShipPlacement();
+			//$('<p>Computer | Player</p>').insertBefore('#wrapper');
 		};
 		console.log(placedShips);
 	});
