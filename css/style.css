@@ -74,6 +74,7 @@ td, th {
 
 td {
 	background-color: #3B7ADB;
+	text-align: center;
 }
 
 td img {
@@ -171,11 +172,18 @@ p .ship3.rotate90 { left: 45px; }
 p .ship4.rotate90 { left: 40px; }
 p .ship5.rotate90 { left: 20px; }
 
-.hit {
-	content: 'X';
+.hit:after {
+	content: "X";
+	font-size: 20px;
+	font-family: Arial;
+	font-weight: bolder;
 	color: red;
 }
 
-.no-hit {
-	background-color: yellow;
+.no-hit:after {
+	content: "O";
+	font-size: 16px;
+	font-family: Arial;
+	font-weight: bold;
+	color: #BFCDF5;
 }
