@@ -1,113 +1,58 @@
 // Create Ship object
-function Ship(name, intact, hit, sank, url) {
+function Ship(name, intact, url) {
 	this.name = name;
 	this.intact = intact;
-	this.hit = hit;
-	this.sank = sank;
 	this.url = url;
 };
 
 // Aircraft carrier images
 var carrierArray = [
-	'ships/carrier_1.png',
-	'ships/carrier_2.png',
-	'ships/carrier_3.png',
-	'ships/carrier_4.png',
-	'ships/carrier_5.png'
-]
-var carrierHitArray = [
-	'ships/carrier_1_hit.png',
-	'ships/carrier_2_hit.png',
-	'ships/carrier_3_hit.png',
-	'ships/carrier_4_hit.png',
-	'ships/carrier_5_hit.png'
-]
-var carrierSankArray = [
-	'ships/carrier_1_sank.png',
-	'ships/carrier_2_sank.png',
-	'ships/carrier_3_sank.png',
-	'ships/carrier_4_sank.png',
-	'ships/carrier_5_sank.png'
+	'ships/car_1.png',
+	'ships/car_2.png',
+	'ships/car_3.png',
+	'ships/car_4.png',
+	'ships/car_5.png'
 ]
 
 // Battleship images
 var battleshipArray = [
-	'ships/battleship_1.png',
-	'ships/battleship_2.png',
-	'ships/battleship_3.png',
-	'ships/battleship_4.png'
-]
-var battleshipHitArray = [
-	'ships/battleship_1_hit.png',
-	'ships/battleship_2_hit.png',
-	'ships/battleship_3_hit.png',
-	'ships/battleship_4_hit.png'
-]
-var battleshipSankArray = [
-	'ships/battleship_1_sank.png',
-	'ships/battleship_2_sank.png',
-	'ships/battleship_3_sank.png',
-	'ships/battleship_4_sank.png'
+	'ships/bat_1.png',
+	'ships/bat_2.png',
+	'ships/bat_3.png',
+	'ships/bat_4.png'
 ]
 
 // Cruiser images
 var cruiserArray = [
-	'ships/cruiser_1.png',
-	'ships/cruiser_2.png',
-	'ships/cruiser_3.png'
-]
-var cruiserHitArray = [
-	'ships/cruiser_1_hit.png',
-	'ships/cruiser_2_hit.png',
-	'ships/cruiser_3_hit.png'
-]
-var cruiserSankArray = [
-	'ships/cruiser_1_sank.png',
-	'ships/cruiser_2_sank.png',
-	'ships/cruiser_3_sank.png'
+	'ships/cru_1.png',
+	'ships/cru_2.png',
+	'ships/cru_3.png'
 ]
 
 // Destroyer images
 var destroyerArray = [
-	'ships/destroyer_1.png',
-	'ships/destroyer_2.png'
-]
-var destroyerHitArray = [
-	'ships/destroyer_1_hit.png',
-	'ships/destroyer_2_hit.png'
-]
-var destroyerSankArray = [
-	'ships/destroyer_1_sank.png',
-	'ships/destroyer_2_sank.png'
+	'ships/des_1.png',
+	'ships/des_2.png'
 ]
 
 // Submarine images
 var submarineArray = [
-	'ships/submarine.png'
-]
-var submarineHitArray = [
-	'ships/submarine_hit.png'
-]
-var submarineSankArray = [
-	'ships/submarine_sank.png'
+	'ships/sub_1.png'
 ]
 
 //Create the Ships
-var aircraftCarrier = new Ship('Aircraft carrier', carrierArray, carrierHitArray,
-	carrierSankArray, 'ships/aircraft_carrier.png');
-var battleship = new Ship('Battleship', battleshipArray, battleshipHitArray, 
-	battleshipSankArray, 'ships/battleship.png');
-var cruiser1 = new Ship('Cruiser', cruiserArray, cruiserHitArray, cruiserSankArray,
-	'ships/cruiser.png');
-var cruiser2 = new Ship('Cruiser', cruiserArray, cruiserHitArray, cruiserSankArray,
-	'ships/cruiser.png');
-var destroyer = new Ship('Destroyer', destroyerArray, destroyerHitArray, 
-	destroyerSankArray, 'ships/destroyer.png');
-var submarine = new Ship('Submarine', submarineArray, submarineHitArray, 
-	submarineSankArray, 'ships/submarine.png');
+var aircraftCarrier = new Ship('Aircraft carrier', carrierArray, 'ships/aircraft_carrier.png');
+var battleship = new Ship('Battleship', battleshipArray, 'ships/battleship.png');
+var cruiser1 = new Ship('Cruiser', cruiserArray, 'ships/cruiser.png');
+var cruiser2 = new Ship('Cruiser', cruiserArray, 'ships/cruiser.png');
+var destroyer = new Ship('Destroyer', destroyerArray, 'ships/destroyer.png');
+var submarine = new Ship('Submarine', submarineArray, 'ships/sub_1.png');
 
 // ship objects in one array
 var shipArray = [aircraftCarrier, battleship, cruiser1, cruiser2, destroyer, submarine]
+
+// for changing ship hit and sank pictures
+var shipSrcArray = ['ships/car_', 'ships/bat_', 'ships/cru_', 'ships/cru_', 'ships/des_', 'ships/sub_']
 
 // Connect images with names inside p tags
 function shipImages() {
@@ -423,7 +368,7 @@ function handleDrop(event) {
 			for (var j=0; j<arrayImages.length; j++) {
 				var image = new Image();
 				image.src = arrayImages[j];
-				image.setAttribute('class', 'ship' + i);
+				image.setAttribute('class', 'ship' + i + "_" + (j+1));
 				if ($(dragObject).hasClass('rotate90')) {
 					image.classList.add('rotate90');
 				}

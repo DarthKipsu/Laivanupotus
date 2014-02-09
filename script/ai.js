@@ -52,7 +52,15 @@ var priorityTargetsArray = [];
 
 function computerTurn() {
 	if (priorityTargetsArray.length > 0) {
-		// select hit target from that array
+		var randomPrioritySelector = Math.floor(Math.random()*priorityTargetsArray.length);
+		var priorityTarget = priorityTargetsArray[randomPrioritySelector];
+		var ifHit = $(priorityTarget).data('hasShip');
+		if (ifHit == 2) {
+			//
+		} else {
+			$(targetCell).addClass('ai-no-hit');
+			$('#instructions').append(' Computer hits ' + targetCell.id + " which is a miss. Your turn.")
+		}
 	} else {
 		var targetsArray = $('#player tr td:not(.ai-hit, .ai-no-hit)');
 		var randomCellSelector = Math.floor(Math.random()*targetsArray.length);
@@ -64,15 +72,32 @@ function computerTurn() {
 			var tdLetter = targetId.substring(0,1);
 			var tdLetter2 = String.fromCharCode(targetId.substring(0,1).charCodeAt(0) + 1);
 			var tdNumber = parseInt(targetId.substring(2,4), 10);
-			var targetShip = targetCell.firstChild
-			var targetClass = targetCell.firstChild.className
 
-			console.log(targetId)
-			if (tdLetter != 'A') priorityTargetsArray.push('#' + tdLetter1 + '-' + tdNumber);
-			if (tdLetter != 'J') priorityTargetsArray.push('#' + tdLetter2 + '-' + tdNumber);
-			if (tdNumber !== 1) priorityTargetsArray.push('#' + tdLetter + '-' + (tdNumber - 1));
-			if (tdNumber !== 10) priorityTargetsArray.push('#' + tdLetter + '-' + (tdNumber + 1));
+			var targetShip = targetCell.firstChild
+			var targetClass = targetCell.firstChild.classList[0]
+			var targetClassList = targetCell.firstChild.className
+			var targetShipHit = new Image();
+			console.log(shipSrcArray[parseInt(targetClass.substring(4,5))] + targetClass.substring(6,7) + '_h.png')
+			targetShipHit.src = shipSrcArray[parseInt(targetClass.substring(4,5))] + targetClass.substring(6,7) + '_h.png';
+			targetShipHit.className = targetClassList;
+
+			$(targetShip).replaceWith(targetShipHit);
+
+			console.log(targetCell.firstChild.classList[0])
+			if (tdLetter != 'A' && !targetCell.classList.contains('ai-hit', 'ai-no-hit')) {
+				priorityTargetsArray.push('#' + tdLetter1 + '-' + tdNumber);
+			}
+			if (tdLetter != 'J' && !targetCell.classList.contains('ai-hit', 'ai-no-hit')) {
+				priorityTargetsArray.push('#' + tdLetter2 + '-' + tdNumber);
+			}
+			if (tdNumber !== 1 && !targetCell.classList.contains('ai-hit', 'ai-no-hit')) {
+				priorityTargetsArray.push('#' + tdLetter + '-' + (tdNumber - 1));
+			}
+			if (tdNumber !== 10 && !targetCell.classList.contains('ai-hit', 'ai-no-hit')) {
+				priorityTargetsArray.push('#' + tdLetter + '-' + (tdNumber + 1));
+			}
 			console.log(priorityTargetsArray)
+			console.log(targetCell.firstChild)
 			$('#instructions').append(' Computer hits ' + targetCell.id + " and hits your xx. Your turn.")
 		} else {
 			//miss
