@@ -425,7 +425,7 @@ function handleDrop(event) {
 				image.src = arrayImages[j];
 				image.setAttribute('class', 'ship' + i);
 				if ($(dragObject).hasClass('rotate90')) {
-					image.setAttribute('class', 'rotate90');
+					image.classList.add('rotate90');
 				}
 				image.onmousedown = function(event) { // pravent ship from being copied
 					event.preventDefault();

@@ -48,28 +48,37 @@ function aiShipPlacement() { // place ships on ai map
 	};
 };
 
+var priorityTargetsArray = [];
+
 function computerTurn() {
-	var targetsArray = $('#player tr td:not(.ai-hit, .ai-no-hit)');
-	var randomCellSelector = Math.floor(Math.random()*targetsArray.length);
-	var targetCell = targetsArray.get(randomCellSelector); // attack this cell
-	var ifHit = $(targetCell).data('hasShip');
-	if (ifHit >= 1) {
-		//hit
+	if (priorityTargetsArray.length > 0) {
+		// select hit target from that array
 	} else {
-		//miss
-		$(targetCell).addClass('ai-no-hit');
-		$('#instructions').append(' Computer hits ' + targetCell.id + " which is a miss. Your turn.")
-	}
-	turn = 'player';
-	/*var randomLine = String.fromCharCode(Math.floor(Math.random()*10 + 65));
-	var randomCell = Math.floor(Math.random()*10+1);
-	console.log('#' + randomLine + "-" + randomCell)
-	if ($('#' + randomLine + "-" + randomCell).hasClass('ai-hit') || $('#' + randomLine + "-" + randomCell).hasClass('ai-no-hit')) {
-		console.log('hit twice the same');
-		computerTurn();
-	} else {
-		console.log('hit');
-		$('#' + randomLine + "-" + randomCell).addClass('ai-no-hit');
-		turn = 'player'; // in gameplay.js
-	}*/
+		var targetsArray = $('#player tr td:not(.ai-hit, .ai-no-hit)');
+		var randomCellSelector = Math.floor(Math.random()*targetsArray.length);
+		var targetCell = targetsArray.get(randomCellSelector); // attack this cell
+		var targetId = targetCell.id;
+		var ifHit = $(targetCell).data('hasShip');
+		if (ifHit == 2) {
+			var tdLetter1 = String.fromCharCode(targetId.substring(0,1).charCodeAt(0) - 1);
+			var tdLetter = targetId.substring(0,1);
+			var tdLetter2 = String.fromCharCode(targetId.substring(0,1).charCodeAt(0) + 1);
+			var tdNumber = parseInt(targetId.substring(2,4), 10);
+			var targetShip = targetCell.firstChild
+			var targetClass = targetCell.firstChild.className
+
+			console.log(targetId)
+			if (tdLetter != 'A') priorityTargetsArray.push('#' + tdLetter1 + '-' + tdNumber);
+			if (tdLetter != 'J') priorityTargetsArray.push('#' + tdLetter2 + '-' + tdNumber);
+			if (tdNumber !== 1) priorityTargetsArray.push('#' + tdLetter + '-' + (tdNumber - 1));
+			if (tdNumber !== 10) priorityTargetsArray.push('#' + tdLetter + '-' + (tdNumber + 1));
+			console.log(priorityTargetsArray)
+			$('#instructions').append(' Computer hits ' + targetCell.id + " and hits your xx. Your turn.")
+		} else {
+			//miss
+			$(targetCell).addClass('ai-no-hit');
+			$('#instructions').append(' Computer hits ' + targetCell.id + " which is a miss. Your turn.")
+		};
+	};
+	turn = 'player'; // in gameplay.js
 }

@@ -2,7 +2,6 @@ var turn = 'computer';
 
 document.addEventListener('click', function(event) {
 	var el = event.target
-	console.log(el)
 	if ($(el).closest('#computer').length == 1 && turn == 'player' && el.nodeName == 'TD' &&
 		!$(el).hasClass('no-hit') && !$(el).hasClass('hit')) {
 		turn = 'computer'; // make it computers turn so player can't hit twice
