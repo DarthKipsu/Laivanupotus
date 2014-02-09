@@ -148,7 +148,7 @@ function handleDragStart(event) {
 			event.dataTransfer.setDragImage(dragIcon, 46, 15);
 		}
 	} else if ($(this).hasClass('ship5')) {
-		dragIcon.src = 'ships/submarine.png';
+		dragIcon.src = 'ships/sub_1.png';
 		event.dataTransfer.setDragImage(dragIcon, 15, 15);
 	};
 };
