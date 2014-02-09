@@ -187,3 +187,19 @@ p .ship5.rotate90 { left: 20px; }
 	font-weight: bold;
 	color: #BFCDF5;
 }
+
+.ai-hit:after {
+	content: "X";
+	font-size: 20px;
+	font-family: Arial;
+	font-weight: bolder;
+	color: red;
+}
+
+.ai-no-hit:after {
+	content: "O";
+	font-size: 16px;
+	font-family: Arial;
+	font-weight: bold;
+	color: #BFCDF5;
+}

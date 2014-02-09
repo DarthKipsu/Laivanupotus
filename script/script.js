@@ -7,11 +7,12 @@ $(document).ready(function() {
 	});
 	$('#game-starter, #override').click(function() {
 		if (placedShips == 6 || $(this).is('#override')) {
-			$('#ship-wrapper, #rotate, #game-starter, #instructions, #override').hide();
+			$('#ship-wrapper, #rotate, #game-starter, #override').hide();
 			$('#wrapper').css('width', '705')
 			$(createTable('computer', "ai")).insertBefore('#player');
 			aiShipPlacement();
-			$('<p id="player-first">Your turn. Place a bomb anywhere on the left grid by clicking on it.</p>').insertBefore('#wrapper');
+			document.getElementById('instructions').innerHTML = "Your turn. Place a bomb \
+			anywhere on the left grid by clicking on it.";
 			turn = 'player';
 		};
 	});

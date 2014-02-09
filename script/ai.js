@@ -3,7 +3,6 @@ function aiShipPlacement() { // place ships on ai map
 		var shipImages = shipArray[i].intact;
 		var shipLength = shipImages.length; // get length of each ship
 		if (Math.random() >= 0.5) { // choose if ship goes horizonal or vertical
-			console.log('ship ' + i + ' horizonal')
 			var placed = 0;
 			while (placed <= 0) {
 				var randomLine = String.fromCharCode(Math.floor(Math.random()*10 + 65));
@@ -13,7 +12,6 @@ function aiShipPlacement() { // place ships on ai map
 					var aiShip = $('#ai' + randomLine + "-" + (randomCell + j)).data('hasAiShip');
 					if (aiShip >= 1) {
 						hasAiShip += 1;
-						console.log('second try ship ' + i)
 						break;
 					}
 				}
@@ -26,7 +24,6 @@ function aiShipPlacement() { // place ships on ai map
 				}
 			}
 		} else {
-			console.log('ship ' + i + ' vertical')
 			var placed = 0;
 			while (placed <= 0) {
 				var randomLine = Math.floor(Math.random()*(11 - shipLength) + 65);
@@ -36,7 +33,6 @@ function aiShipPlacement() { // place ships on ai map
 					var aiShip = $('#ai' + String.fromCharCode(randomLine + j) + "-" + randomCell).data('hasAiShip');
 					if (aiShip >= 1) { 
 						hasAiShip += 1;
-						console.log('second try ship ' + i)
 						break;
 					}
 				}
@@ -51,3 +47,29 @@ function aiShipPlacement() { // place ships on ai map
 		};
 	};
 };
+
+function computerTurn() {
+	var targetsArray = $('#player tr td:not(.ai-hit, .ai-no-hit)');
+	var randomCellSelector = Math.floor(Math.random()*targetsArray.length);
+	var targetCell = targetsArray.get(randomCellSelector); // attack this cell
+	var ifHit = $(targetCell).data('hasShip');
+	if (ifHit >= 1) {
+		//hit
+	} else {
+		//miss
+		$(targetCell).addClass('ai-no-hit');
+		$('#instructions').append(' Computer hits ' + targetCell.id + " which is a miss. Your turn.")
+	}
+	turn = 'player';
+	/*var randomLine = String.fromCharCode(Math.floor(Math.random()*10 + 65));
+	var randomCell = Math.floor(Math.random()*10+1);
+	console.log('#' + randomLine + "-" + randomCell)
+	if ($('#' + randomLine + "-" + randomCell).hasClass('ai-hit') || $('#' + randomLine + "-" + randomCell).hasClass('ai-no-hit')) {
+		console.log('hit twice the same');
+		computerTurn();
+	} else {
+		console.log('hit');
+		$('#' + randomLine + "-" + randomCell).addClass('ai-no-hit');
+		turn = 'player'; // in gameplay.js
+	}*/
+}
