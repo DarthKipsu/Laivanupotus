@@ -195,3 +195,9 @@ p .ship5.rotate90 { left: 20px; }
 	font-weight: bold;
 	color: #BFCDF5;
 }
+
+.boom {
+	float: right;
+	margin: 0 -15 0 0;
+	z-index: 99;
+}

@@ -81,11 +81,10 @@ function aiHitAction(array) {
 	console.log(targetArray);
 	var randomTargetSelector = Math.floor(Math.random()*targetArray.length); // randomize attack
 	var targetCell = targetArray[randomTargetSelector]; // attack this cell
-	var targetId = targetCell.id;
 	if (targetArray == priorityTargetsArray) {
 		var targetCell = targetCell[0];
-		var targetId = targetCell.id;
 	}
+	var targetId = targetCell.id;
 	console.log('targetId: ' + targetId)
 	var ifHit = $(targetCell).data('hasShip');
 	if (ifHit == 2) {
@@ -107,6 +106,8 @@ function aiHitAction(array) {
 
 		$(targetShip).replaceWith(targetShipHit);
 		$(targetCell).addClass('ai-hit');
+		//$('.boom').appendTo(targetCell);
+		//$('.boom').show().delay(1000).hide();
 		console.log('phase 2.5');
 
 		var shipNumber = targetClass.substring(4,5);
@@ -118,6 +119,13 @@ function aiHitAction(array) {
 				priorityTargetsArray = [];
 				$('#instructions').append(' Computer fires at ' + targetId +
 					" and sinks your " + targetShipName + ". Your turn.")
+				for (i=0; i<5; i++) {
+					var sankShip = new Image();
+					sankShip.src = carrierArray[i].substring(0,11) + '_s.png';
+					sankShip.classList.add(targetShip.classList[1], 'ai-hit')
+					$('.ship0_' + (i + 1)).replaceWith(sankShip);
+					console.log(targetShip.classList[1]);
+				}
 				turn = 'player'
 				console.log('ship0 phase 4');
 				return;
