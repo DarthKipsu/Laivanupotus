@@ -58,225 +58,151 @@ var ship4 = 0;
 var ship5 = 0;
 
 function computerTurn() {
+	console.log(priorityTargetsArray);
 	if (priorityTargetsArray.length > 0) {
-		var randomPrioritySelector = Math.floor(Math.random()*priorityTargetsArray.length);
-		var priorityTargetId = priorityTargetsArray[randomPrioritySelector];
-		var priorityObject = $(priorityTargetId); // middle phase to get the priorityTarget
-		var priorityTarget = priorityObject[0];
-		var ifHit = $(priorityTarget).data('hasShip');
-		if (ifHit == 2) {
-			console.log('second 1')
-			var tdLetter1 = String.fromCharCode(priorityTargetId.substring(0,1).charCodeAt(0) - 1);
-			var tdLetter = priorityTargetId.substring(0,1);
-			var tdLetter2 = String.fromCharCode(priorityTargetId.substring(0,1).charCodeAt(0) + 1);
-			var tdNumber = parseInt(priorityTargetId.substring(2,4), 10);
-
-			console.log('second 2')
-			var targetShip = priorityTarget.firstChild
-			var targetClass = priorityTarget.firstChild.classList[0]
-			var targetClassList = priorityTarget.firstChild.className
-			var targetShipHit = new Image();
-			targetShipHit.src = shipSrcArray[parseInt(targetClass.substring(4,5))] + targetClass.substring(6,7) + '_h.png';
-			targetShipHit.className = targetClassList;
-			var targetShipName = shipArray[parseInt(targetClass.substring(4,5))].name;
-
-			console.log('second 3')
-			$(targetShip).replaceWith(targetShipHit);
-
-			if (targetClass.substring(4,5) == 0) {
-				ship0 += 1;
-				if (ship0 == 5) {
-					// sink it
-					priorityTargetsArray = [];
-					$('#instructions').append(' Computer fires at ' + priorityTarget.id +
-						" and sinks your " + targetShipName + ". Your turn.")
-					turn = 'player'
-					return;
-				}
-			}
-			if (targetClass.substring(4,5) == 1) {
-				ship1 += 1;
-				if (ship1 == 4) {
-					// sink it
-					priorityTargetsArray = [];
-					$('#instructions').append(' Computer fires at ' + priorityTarget.id +
-						" and sinks your " + targetShipName + ". Your turn.")
-					turn = 'player'
-					return;
-				}
-			}
-			if (targetClass.substring(4,5) == 2) {
-				ship2 += 1;
-				if (ship2 == 3) {
-					// sink it
-					priorityTargetsArray = [];
-					$('#instructions').append(' Computer fires at ' + priorityTarget.id +
-						" and sinks your " + targetShipName + ". Your turn.")
-					turn = 'player'
-					return;
-				}
-			}
-			if (targetClass.substring(4,5) == 3) {
-				ship3 += 1;
-				if (ship3 == 3) {
-					// sink it
-					priorityTargetsArray = [];
-					$('#instructions').append(' Computer fires at ' + priorityTarget.id +
-						" and sinks your " + targetShipName + ". Your turn.")
-					turn = 'player'
-					return;
-				}
-			}
-			if (targetClass.substring(4,5) == 4) {
-				ship4 += 1;
-				if (ship4 == 2) {
-					// sink it
-					priorityTargetsArray = [];
-					$('#instructions').append(' Computer fires at ' + priorityTarget.id +
-						" and sinks your " + targetShipName + ". Your turn.")
-					turn = 'player'
-					return;
-				}
-			}
-			if (targetClass.substring(4,5) == 5) {
-				ship5 += 1;
-				if (ship5 == 1) {
-					// sink it
-					priorityTargetsArray = [];
-					$('#instructions').append(' Computer fires at ' + priorityTarget.id +
-						" and sinks your " + targetShipName + ". Your turn.")
-					turn = 'player'
-					return;
-				}
-			}
-
-			console.log('second 4')
-			if (tdLetter != 'A' && !priorityTarget.classList.contains('ai-hit', 'ai-no-hit')) {
-				priorityTargetsArray.push('#' + tdLetter1 + '-' + tdNumber);
-			}
-			if (tdLetter != 'J' && !priorityTarget.classList.contains('ai-hit', 'ai-no-hit')) {
-				priorityTargetsArray.push('#' + tdLetter2 + '-' + tdNumber);
-			}
-			if (tdNumber !== 1 && !priorityTarget.classList.contains('ai-hit', 'ai-no-hit')) {
-				priorityTargetsArray.push('#' + tdLetter + '-' + (tdNumber - 1));
-			}
-			if (tdNumber !== 10 && !priorityTarget.classList.contains('ai-hit', 'ai-no-hit')) {
-				priorityTargetsArray.push('#' + tdLetter + '-' + (tdNumber + 1));
-			}
-			$('#instructions').append(' Computer fires at ' + priorityTarget.id + " and hits your " +
-				targetShipName + ". Your turn.")
-		} else {
-			$(priorityTarget).addClass('ai-no-hit');
-			$('#instructions').append(' Computer fires at ' + priorityTarget.id + " which is a miss. Your turn.")
-		}
+		aiHitAction(priorityTargetsArray);
 	} else {
-		var targetsArray = $('#player tr td:not(.ai-hit, .ai-no-hit)');
-		var randomCellSelector = Math.floor(Math.random()*targetsArray.length);
-		var targetCell = targetsArray.get(randomCellSelector); // attack this cell
-		var targetId = targetCell.id;
-		var ifHit = $(targetCell).data('hasShip');
-		if (ifHit == 2) {
-			var tdLetter1 = String.fromCharCode(targetId.substring(0,1).charCodeAt(0) - 1);
-			var tdLetter = targetId.substring(0,1);
-			var tdLetter2 = String.fromCharCode(targetId.substring(0,1).charCodeAt(0) + 1);
-			var tdNumber = parseInt(targetId.substring(2,4), 10);
-
-			var targetShip = targetCell.firstChild
-			var targetClass = targetCell.firstChild.classList[0]
-			var targetClassList = targetCell.firstChild.className
-			var targetShipHit = new Image();
-			targetShipHit.src = shipSrcArray[parseInt(targetClass.substring(4,5))] + targetClass.substring(6,7) + '_h.png';
-			targetShipHit.className = targetClassList;
-			var targetShipName = shipArray[parseInt(targetClass.substring(4,5))].name;
-
-			$(targetShip).replaceWith(targetShipHit);
-
-			if (targetClass.substring(4,5) == 0) {
-				ship0 += 1;
-				if (ship0 == 5) {
-					// sink it
-					priorityTargetsArray = [];
-					$('#instructions').append(' Computer fires at ' + targetCell.id +
-						" and sinks your " + targetShipName + ". Your turn.")
-					turn = 'player'
-					return;
-				}
-			}
-			if (targetClass.substring(4,5) == 1) {
-				ship1 += 1;
-				if (ship1 == 4) {
-					// sink it
-					priorityTargetsArray = [];
-					$('#instructions').append(' Computer fires at ' + targetCell.id +
-						" and sinks your " + targetShipName + ". Your turn.")
-					turn = 'player'
-					return;
-				}
-			}
-			if (targetClass.substring(4,5) == 2) {
-				ship2 += 1;
-				if (ship2 == 3) {
-					// sink it
-					priorityTargetsArray = [];
-					$('#instructions').append(' Computer fires at ' + targetCell.id +
-						" and sinks your " + targetShipName + ". Your turn.")
-					turn = 'player'
-					return;
-				}
-			}
-			if (targetClass.substring(4,5) == 3) {
-				ship3 += 1;
-				if (ship3 == 3) {
-					// sink it
-					priorityTargetsArray = [];
-					$('#instructions').append(' Computer fires at ' + targetCell.id +
-						" and sinks your " + targetShipName + ". Your turn.")
-					turn = 'player'
-					return;
-				}
-			}
-			if (targetClass.substring(4,5) == 4) {
-				ship4 += 1;
-				if (ship4 == 2) {
-					// sink it
-					priorityTargetsArray = [];
-					$('#instructions').append(' Computer fires at ' + targetCell.id +
-						" and sinks your " + targetShipName + ". Your turn.")
-					turn = 'player'
-					return;
-				}
-			}
-			if (targetClass.substring(4,5) == 5) {
-				ship5 += 1;
-				if (ship5 == 1) {
-					// sink it
-					priorityTargetsArray = [];
-					$('#instructions').append(' Computer fires at ' + targetCell.id +
-						" and sinks your " + targetShipName + ". Your turn.")
-					turn = 'player'
-					return;
-				}
-			}
-
-			if (tdLetter != 'A' && !targetCell.classList.contains('ai-hit', 'ai-no-hit')) {
-				priorityTargetsArray.push('#' + tdLetter1 + '-' + tdNumber);
-			}
-			if (tdLetter != 'J' && !targetCell.classList.contains('ai-hit', 'ai-no-hit')) {
-				priorityTargetsArray.push('#' + tdLetter2 + '-' + tdNumber);
-			}
-			if (tdNumber !== 1 && !targetCell.classList.contains('ai-hit', 'ai-no-hit')) {
-				priorityTargetsArray.push('#' + tdLetter + '-' + (tdNumber - 1));
-			}
-			if (tdNumber !== 10 && !targetCell.classList.contains('ai-hit', 'ai-no-hit')) {
-				priorityTargetsArray.push('#' + tdLetter + '-' + (tdNumber + 1));
-			}
-			$('#instructions').append(' Computer fires at ' + targetCell.id + " and hits your " +
-				targetShipName + ". Your turn.")
-		} else {
-			//miss
-			$(targetCell).addClass('ai-no-hit');
-			$('#instructions').append(' Computer fires at ' + targetCell.id + " which is a miss. Your turn.")
-		};
+		var targetArray = $('#player tr td:not(.ai-hit, .ai-no-hit)');
+		aiHitAction(targetArray)
 	};
 	turn = 'player'; // in gameplay.js
 }
+
+function aiHitAction(array) {
+	console.log('phase 1');
+	var targetArray = array;
+	console.log(targetArray);
+	var randomTargetSelector = Math.floor(Math.random()*targetArray.length); // randomize attack
+	var targetCell = targetArray[randomTargetSelector]; // attack this cell
+	var targetId = targetCell.id;
+	if (targetArray == priorityTargetsArray) {
+		var targetCell = targetCell[0];
+		var targetId = targetCell.id;
+	}
+	console.log('targetId: ' + targetId)
+	var ifHit = $(targetCell).data('hasShip');
+	if (ifHit == 2) {
+		var tdLetter1 = String.fromCharCode(targetId.substring(0,1).charCodeAt(0) - 1);
+		var tdLetter = targetId.substring(0,1);
+		var tdLetter2 = String.fromCharCode(targetId.substring(0,1).charCodeAt(0) + 1);
+		var tdNumber = parseInt(targetId.substring(2,4), 10);
+		console.log('phase 2');
+
+		var targetShip = targetCell.firstChild
+		var targetClass = targetCell.firstChild.classList[0]
+		var targetClassList = targetCell.firstChild.className
+		var targetShipHit = new Image();
+		targetShipHit.src = shipSrcArray[parseInt(targetClass.substring(4,5))] + targetClass.substring(6,7) + '_h.png';
+		targetShipHit.className = targetClassList;
+		var targetShipName = shipArray[parseInt(targetClass.substring(4,5))].name;
+		console.log(targetCell);
+		console.log(targetShip);
+
+		$(targetShip).replaceWith(targetShipHit);
+		$(targetCell).addClass('ai-hit');
+		console.log('phase 2.5');
+
+		var shipNumber = targetClass.substring(4,5);
+
+		if (shipNumber == 0) {
+			ship0 += 1;
+			if (ship0 == 5) {
+				// sink it
+				priorityTargetsArray = [];
+				$('#instructions').append(' Computer fires at ' + targetId +
+					" and sinks your " + targetShipName + ". Your turn.")
+				turn = 'player'
+				console.log('ship0 phase 4');
+				return;
+			}
+		} else if (shipNumber == 1) {
+			ship1 += 1;
+			if (ship1 == 4) {
+				// sink it
+				priorityTargetsArray = [];
+				$('#instructions').append(' Computer fires at ' + targetId +
+					" and sinks your " + targetShipName + ". Your turn.")
+				turn = 'player'
+				console.log('ship1 phase 4');
+				return;
+			}
+		} else if (shipNumber == 2) {
+			ship2 += 1;
+			if (ship2 == 3) {
+				// sink it
+				priorityTargetsArray = [];
+				$('#instructions').append(' Computer fires at ' + targetId +
+					" and sinks your " + targetShipName + ". Your turn.")
+				turn = 'player'
+				console.log('ship2 phase 4');
+				return;
+			}
+		} else if (shipNumber == 3) {
+			ship3 += 1;
+			if (ship3 == 3) {
+				// sink it
+				priorityTargetsArray = [];
+				$('#instructions').append(' Computer fires at ' + targetId +
+					" and sinks your " + targetShipName + ". Your turn.")
+				turn = 'player'
+				console.log('ship3 phase 4');
+				return;
+			}
+		} else if (shipNumber == 4) {
+			ship4 += 1;
+			if (ship4 == 2) {
+				// sink it
+				priorityTargetsArray = [];
+				$('#instructions').append(' Computer fires at ' + targetId +
+					" and sinks your " + targetShipName + ". Your turn.")
+				turn = 'player'
+				console.log('ship4 phase 4');
+				return;
+			}
+		} else if (shipNumber == 5) {
+			// sink it
+			priorityTargetsArray = [];
+			$('#instructions').append(' Computer fires at ' + targetId +
+				" and sinks your " + targetShipName + ". Your turn.")
+			turn = 'player'
+			console.log('ship5 phase 4');
+			return;
+		}
+
+		if (tdLetter != 'A') {
+			var priorityObject = $('#' + tdLetter1 + '-' + tdNumber);
+			if (!priorityObject.hasClass('ai-hit') ||
+				!priorityObject.hasClass('ai-no-hit')) {
+				priorityTargetsArray.push(priorityObject);
+			}
+		}
+		if (tdLetter != 'J') {
+			var priorityObject = $('#' + tdLetter2 + '-' + tdNumber);
+			if (!priorityObject.hasClass('ai-hit') ||
+				!priorityObject.hasClass('ai-no-hit')) {
+				priorityTargetsArray.push(priorityObject);
+			}
+		}
+		if (tdNumber !== 1) {
+			var priorityObject = $('#' + tdLetter + '-' + (tdNumber - 1));
+			if (!priorityObject.hasClass('ai-hit') ||
+				!priorityObject.hasClass('ai-no-hit')) {
+				priorityTargetsArray.push(priorityObject);
+			}
+		}
+		if (tdNumber !== 10) {
+			var priorityObject = $('#' + tdLetter + '-' + (tdNumber + 1));
+			if (!priorityObject.hasClass('ai-hit') ||
+				!priorityObject.hasClass('ai-no-hit')) {
+				priorityTargetsArray.push(priorityObject);
+			}
+		}
+		console.log('phase 3');
+		$('#instructions').append(' Computer fires at ' + targetId + " and hits your " +
+			targetShipName + ". Your turn.")
+	} else {
+		//miss
+		$(targetCell).addClass('ai-no-hit');
+		$('#instructions').append(' Computer fires at ' + targetId + " which is a miss. Your turn.")
+	};
+};
