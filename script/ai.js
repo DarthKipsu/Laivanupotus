@@ -59,6 +59,13 @@ var ship5 = 0;
 
 function computerTurn() {
 	console.log(priorityTargetsArray);
+	for (var i=0; i<priorityTargetsArray.length; i++) {
+		var target = priorityTargetsArray[i]
+		if (target[0].classList.contains('ai-hit') || target[0].classList.contains('ai-no-hit')) {
+				priorityTargetsArray.splice(i, 1);
+		};
+	};
+	console.log(priorityTargetsArray);
 	if (priorityTargetsArray.length > 0) {
 		aiHitAction(priorityTargetsArray);
 	} else {
