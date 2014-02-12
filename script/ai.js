@@ -112,77 +112,29 @@ function aiHitAction(array) {
 
 		var shipNumber = targetClass.substring(4,5);
 
-		if (shipNumber == 0) {
-			ship0 += 1;
-			if (ship0 == 5) {
-				// sink it
-				priorityTargetsArray = [];
-				$('#instructions').append(' Computer fires at ' + targetId +
-					" and sinks your " + targetShipName + ". Your turn.")
-				for (i=0; i<5; i++) {
-					var sankShip = new Image();
-					sankShip.src = carrierArray[i].substring(0,11) + '_s.png';
-					sankShip.classList.add(targetShip.classList[1], 'ai-hit')
-					$('.ship0_' + (i + 1)).replaceWith(sankShip);
-					console.log(targetShip.classList[1]);
-				}
-				turn = 'player'
-				console.log('ship0 phase 4');
-				return;
-			}
-		} else if (shipNumber == 1) {
-			ship1 += 1;
-			if (ship1 == 4) {
-				// sink it
-				priorityTargetsArray = [];
-				$('#instructions').append(' Computer fires at ' + targetId +
-					" and sinks your " + targetShipName + ". Your turn.")
-				turn = 'player'
-				console.log('ship1 phase 4');
-				return;
-			}
-		} else if (shipNumber == 2) {
-			ship2 += 1;
-			if (ship2 == 3) {
-				// sink it
-				priorityTargetsArray = [];
-				$('#instructions').append(' Computer fires at ' + targetId +
-					" and sinks your " + targetShipName + ". Your turn.")
-				turn = 'player'
-				console.log('ship2 phase 4');
-				return;
-			}
-		} else if (shipNumber == 3) {
-			ship3 += 1;
-			if (ship3 == 3) {
-				// sink it
-				priorityTargetsArray = [];
-				$('#instructions').append(' Computer fires at ' + targetId +
-					" and sinks your " + targetShipName + ". Your turn.")
-				turn = 'player'
-				console.log('ship3 phase 4');
-				return;
-			}
-		} else if (shipNumber == 4) {
-			ship4 += 1;
-			if (ship4 == 2) {
-				// sink it
-				priorityTargetsArray = [];
-				$('#instructions').append(' Computer fires at ' + targetId +
-					" and sinks your " + targetShipName + ". Your turn.")
-				turn = 'player'
-				console.log('ship4 phase 4');
-				return;
-			}
-		} else if (shipNumber == 5) {
-			// sink it
-			priorityTargetsArray = [];
-			$('#instructions').append(' Computer fires at ' + targetId +
-				" and sinks your " + targetShipName + ". Your turn.")
-			turn = 'player'
-			console.log('ship5 phase 4');
-			return;
-		}
+		for (var i=0; i<shipArray.length; i++) {
+			if (shipNumber == i) {
+				window['ship' + i] += 1;
+				var shipImages = shipArray[i].intact;
+				var shipLength = shipImages.length;
+				if (window['ship' + i] == shipLength) {
+					//sink it!
+					priorityTargetsArray = [];
+					$('#instructions').append(' Computer fires at ' + targetId +
+						" and sinks your " + targetShipName + ". Your turn.")
+					for (j=0; j<shipLength; j++) {
+						var sankShip = new Image();
+						sankShip.src = shipImages[j].substring(0,11) + '_s.png';
+						sankShip.classList.add(targetShip.classList[1], 'ai-hit')
+						$('.ship' + i + '_' + (j + 1)).replaceWith(sankShip);
+						console.log(targetShip.classList[1]);
+					};
+					turn = 'player'
+					console.log('ship' + i + ' phase 4');
+					return;
+				};
+			};
+		};
 
 		if (tdLetter != 'A') {
 			var priorityObject = $('#' + tdLetter1 + '-' + tdNumber);
