@@ -1,4 +1,20 @@
 var turn = 'computer';
+var playerScore = 0;
+var aiScore = 0;
+
+var ship0 = 0;
+var ship1 = 0;
+var ship2 = 0;
+var ship3 = 0;
+var ship4 = 0;
+var ship5 = 0;
+
+var aiShip0 = 0;
+var aiShip1 = 0;
+var aiShip2 = 0;
+var aiShip3 = 0;
+var aiShip4 = 0;
+var aiShip5 = 0;
 
 document.addEventListener('click', function(event) {
 	var el = event.target
@@ -8,7 +24,18 @@ document.addEventListener('click', function(event) {
 		var aiShip = $(event.target).data('hasAiShip');
 		if (aiShip >= 1) {
 			$(event.target).addClass('hit');
-			document.getElementById('instructions').innerHTML = "You hit!";
+			window['aiShip' + (aiShip - 1)] += 1;
+			console.log('ship id: ' + aiShip);
+			console.log('ship hit count: ' + window['aiShip' + (aiShip - 1)]);
+			var shipImages = shipArray[aiShip - 1].intact;
+			var shipLength = shipImages.length;
+			console.log('aluksen pituus: ' + shipLength);
+			if (window['aiShip' + (aiShip - 1)] == shipLength) {
+				document.getElementById('instructions').innerHTML = "You sink computer " +
+				shipArray[aiShip - 1].name + '!';
+			} else {
+				document.getElementById('instructions').innerHTML = "You hit!";
+			};
 			computerTurn(); // in ai.js
 		} else {
 			$(event.target).addClass('no-hit');

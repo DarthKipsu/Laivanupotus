@@ -2,7 +2,7 @@ function aiShipPlacement() { // place ships on ai map
 	for (var i=0; i<shipArray.length; i++) { // loop for all ships
 		var shipImages = shipArray[i].intact;
 		var shipLength = shipImages.length; // get length of each ship
-		if (Math.random() >= 0.5) { // choose if ship goes horizonal or vertical
+		if (Math.random() >= 0.5) { // choose if ship goes horizonal
 			var placed = 0;
 			while (placed <= 0) {
 				var randomLine = String.fromCharCode(Math.floor(Math.random()*10 + 65));
@@ -23,7 +23,7 @@ function aiShipPlacement() { // place ships on ai map
 					placed = 1
 				}
 			}
-		} else {
+		} else { // verticat
 			var placed = 0;
 			while (placed <= 0) {
 				var randomLine = Math.floor(Math.random()*(11 - shipLength) + 65);
@@ -50,22 +50,13 @@ function aiShipPlacement() { // place ships on ai map
 
 var priorityTargetsArray = [];
 
-var ship0 = 0;
-var ship1 = 0;
-var ship2 = 0;
-var ship3 = 0;
-var ship4 = 0;
-var ship5 = 0;
-
 function computerTurn() {
-	console.log(priorityTargetsArray);
 	for (var i=0; i<priorityTargetsArray.length; i++) {
 		var target = priorityTargetsArray[i]
 		if (target[0].classList.contains('ai-hit') || target[0].classList.contains('ai-no-hit')) {
 				priorityTargetsArray.splice(i, 1);
 		};
 	};
-	console.log(priorityTargetsArray);
 	if (priorityTargetsArray.length > 0) {
 		aiHitAction(priorityTargetsArray);
 	} else {
@@ -76,23 +67,19 @@ function computerTurn() {
 }
 
 function aiHitAction(array) {
-	console.log('phase 1');
 	var targetArray = array;
-	console.log(targetArray);
 	var randomTargetSelector = Math.floor(Math.random()*targetArray.length); // randomize attack
 	var targetCell = targetArray[randomTargetSelector]; // attack this cell
 	if (targetArray == priorityTargetsArray) {
 		var targetCell = targetCell[0];
 	}
 	var targetId = targetCell.id;
-	console.log('targetId: ' + targetId)
 	var ifHit = $(targetCell).data('hasShip');
 	if (ifHit == 2) {
 		var tdLetter1 = String.fromCharCode(targetId.substring(0,1).charCodeAt(0) - 1);
 		var tdLetter = targetId.substring(0,1);
 		var tdLetter2 = String.fromCharCode(targetId.substring(0,1).charCodeAt(0) + 1);
 		var tdNumber = parseInt(targetId.substring(2,4), 10);
-		console.log('phase 2');
 
 		var targetShip = targetCell.firstChild
 		var targetClass = targetCell.firstChild.classList[0]
@@ -101,14 +88,11 @@ function aiHitAction(array) {
 		targetShipHit.src = shipSrcArray[parseInt(targetClass.substring(4,5))] + targetClass.substring(6,7) + '_h.png';
 		targetShipHit.className = targetClassList;
 		var targetShipName = shipArray[parseInt(targetClass.substring(4,5))].name;
-		console.log(targetCell);
-		console.log(targetShip);
 
 		$(targetShip).replaceWith(targetShipHit);
 		$(targetCell).addClass('ai-hit');
 		//$('.boom').appendTo(targetCell);
 		//$('.boom').show().delay(1000).hide();
-		console.log('phase 2.5');
 
 		var shipNumber = targetClass.substring(4,5);
 
@@ -122,15 +106,14 @@ function aiHitAction(array) {
 					priorityTargetsArray = [];
 					$('#instructions').append(' Computer fires at ' + targetId +
 						" and sinks your " + targetShipName + ". Your turn.")
+					aiScore += 1;
 					for (j=0; j<shipLength; j++) {
 						var sankShip = new Image();
 						sankShip.src = shipImages[j].substring(0,11) + '_s.png';
 						sankShip.classList.add(targetShip.classList[1], 'ai-hit')
 						$('.ship' + i + '_' + (j + 1)).replaceWith(sankShip);
-						console.log(targetShip.classList[1]);
 					};
 					turn = 'player'
-					console.log('ship' + i + ' phase 4');
 					return;
 				};
 			};
@@ -164,7 +147,6 @@ function aiHitAction(array) {
 				priorityTargetsArray.push(priorityObject);
 			}
 		}
-		console.log('phase 3');
 		$('#instructions').append(' Computer fires at ' + targetId + " and hits your " +
 			targetShipName + ". Your turn.")
 	} else {
