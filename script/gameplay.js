@@ -25,18 +25,20 @@ document.addEventListener('click', function(event) {
 		if (aiShip >= 1) {
 			$(event.target).addClass('hit');
 			window['aiShip' + (aiShip - 1)] += 1;
-			console.log('ship id: ' + aiShip);
-			console.log('ship hit count: ' + window['aiShip' + (aiShip - 1)]);
 			var shipImages = shipArray[aiShip - 1].intact;
 			var shipLength = shipImages.length;
-			console.log('aluksen pituus: ' + shipLength);
 			if (window['aiShip' + (aiShip - 1)] == shipLength) {
 				document.getElementById('instructions').innerHTML = "You sink computer " +
 				shipArray[aiShip - 1].name + '!';
+				playerScore += 1;
 			} else {
 				document.getElementById('instructions').innerHTML = "You hit!";
 			};
-			computerTurn(); // in ai.js
+			if (playerScore == 6) {
+				$('<p>You got all the computer ships! Congratulations, you\'ve won!</p>').insertAfter('#instructions')
+			} else {
+				computerTurn(); // in ai.js
+			};
 		} else {
 			$(event.target).addClass('no-hit');
 			document.getElementById('instructions').innerHTML = "You miss.";

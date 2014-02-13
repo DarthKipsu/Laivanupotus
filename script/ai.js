@@ -63,7 +63,11 @@ function computerTurn() {
 		var targetArray = $('#player tr td:not(.ai-hit, .ai-no-hit)');
 		aiHitAction(targetArray)
 	};
-	turn = 'player'; // in gameplay.js
+	if (aiScore == 6) {
+		$('<p>Computer got all your ships! You\'ve lost!</p>').insertAfter('#instructions')
+	} else {
+		turn = 'player'
+	}
 }
 
 function aiHitAction(array) {
@@ -91,6 +95,7 @@ function aiHitAction(array) {
 
 		$(targetShip).replaceWith(targetShipHit);
 		$(targetCell).addClass('ai-hit');
+		console.log(targetId);
 		//$('.boom').appendTo(targetCell);
 		//$('.boom').show().delay(1000).hide();
 
@@ -113,7 +118,6 @@ function aiHitAction(array) {
 						sankShip.classList.add(targetShip.classList[1], 'ai-hit')
 						$('.ship' + i + '_' + (j + 1)).replaceWith(sankShip);
 					};
-					turn = 'player'
 					return;
 				};
 			};
