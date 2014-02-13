@@ -96,9 +96,11 @@ function aiHitAction(array) {
 
 		$(targetShip).replaceWith(targetShipHit);
 		$(targetCell).addClass('ai-hit');
-		console.log(targetId);
-		//$('.boom').appendTo(targetCell);
-		//$('.boom').show().delay(1000).hide();
+
+		var offset = $(targetCell).offset()
+		$('.boom').css('left', (offset.left - 15));
+		$('.boom').css('top', (offset.top - 15));
+		$('.boom').show().delay(800).fadeOut(100);
 
 		var shipNumber = targetClass.substring(4,5);
 

@@ -25,6 +25,12 @@ document.addEventListener('click', function(event) {
 		if (aiShip >= 1) {
 			$(event.target).addClass('hit');
 			window['aiShip' + (aiShip - 1)] += 1;
+
+			var offset = $(event.target).offset()
+			$('.ai-boom').css('left', (offset.left - 15));
+			$('.ai-boom').css('top', (offset.top - 15));
+			$('.ai-boom').show().delay(800).fadeOut(100);
+
 			var shipImages = shipArray[aiShip - 1].intact;
 			var shipLength = shipImages.length;
 			if (window['aiShip' + (aiShip - 1)] == shipLength) {

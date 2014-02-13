@@ -216,9 +216,17 @@ p .ship5.rotate90 { left: 20px; }
 }
 
 .boom {
-	float: right;
-	margin: 0 -15 0 0;
-	z-index: 99;
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: none;
+}
+
+.ai-boom {
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: none;
 }
 
 .pointer{
