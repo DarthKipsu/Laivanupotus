@@ -283,23 +283,23 @@ function handleDragOver(event) { // when dragging over the grid
 	if ($(dragObject).hasClass('ship0')) {
 		if ($(dragObject).hasClass('rotate90')) {
 			if (hasRotShip < 9 && hasRotShip > 4 || hasShip == 2 || $(this).hasClass('forbidden')) {
-				event.dataTransfer.dropEffect = 'none'; // move the object
+				event.dataTransfer.dropEffect = 'none';
 			} else {
-				event.dataTransfer.dropEffect = 'move'; // don't add ships to forbidden cells
+				event.dataTransfer.dropEffect = 'move';
 			}
 		} else {
 			if (hasShip >= 0 && hasShip < 5 || $(this).hasClass('forbidden')) {
-				event.dataTransfer.dropEffect = 'none'; // move the object
+				event.dataTransfer.dropEffect = 'none';
 			} else {
-				event.dataTransfer.dropEffect = 'move'; // don't add ships to forbidden cells
+				event.dataTransfer.dropEffect = 'move';
 			}
 		}
 	} else if ($(dragObject).hasClass('ship1')) {
 		if ($(dragObject).hasClass('rotate90')) {
 			if (hasRotShip < 8 && hasRotShip > 4 || hasShip == 2 || $(this).hasClass('forbidden')) {
-				event.dataTransfer.dropEffect = 'none'; // move the object
+				event.dataTransfer.dropEffect = 'none';
 			} else {
-				event.dataTransfer.dropEffect = 'move'; // don't add ships to forbidden cells
+				event.dataTransfer.dropEffect = 'move';
 			}
 		} else {
 			if (hasShip > 0 && hasShip < 5 || $(this).hasClass('forbidden')) {
@@ -311,9 +311,9 @@ function handleDragOver(event) { // when dragging over the grid
 	} else if ($(dragObject).hasClass('ship2') || $(dragObject).hasClass('ship3')) {
 		if ($(dragObject).hasClass('rotate90')) {
 			if (hasRotShip < 8 && hasRotShip > 5 || hasShip == 2 || $(this).hasClass('forbidden')) {
-				event.dataTransfer.dropEffect = 'none'; // move the object
+				event.dataTransfer.dropEffect = 'none';
 			} else {
-				event.dataTransfer.dropEffect = 'move'; // don't add ships to forbidden cells
+				event.dataTransfer.dropEffect = 'move';
 			}
 		} else {
 			if (hasShip > 0 && hasShip < 4 || $(this).hasClass('forbidden')) {
@@ -322,12 +322,12 @@ function handleDragOver(event) { // when dragging over the grid
 				event.dataTransfer.dropEffect = 'move';
 			}
 		}
-	} else if ($(dragObject).hasClass('ship4') || $(dragObject).hasClass('ship3')) {
+	} else if ($(dragObject).hasClass('ship4')) {
 		if ($(dragObject).hasClass('rotate90')) {
-			if (hasRotShip == 6 || hasRotShip == 2 || $(this).hasClass('forbidden')) {
-				event.dataTransfer.dropEffect = 'none'; // move the object
+			if (hasRotShip == 6 || hasShip == 2 || $(this).hasClass('forbidden')) {
+				event.dataTransfer.dropEffect = 'none';
 			} else {
-				event.dataTransfer.dropEffect = 'move'; // don't add ships to forbidden cells
+				event.dataTransfer.dropEffect = 'move';
 			}
 		} else {
 			if (hasShip > 1 && hasShip < 4 || $(this).hasClass('forbidden')) {
@@ -377,182 +377,66 @@ function handleDrop(event) {
 				shipImages.push(image) // push ship parts into shipImages array
 			};
 			for (var j=0; j<arrayImages.length; j++) {
-				if (arrayImages.length == 5) {
-					if ($(dragObject).hasClass('rotate90')) {
-						var letterString = String.fromCharCode(letterHex + 2 - j) + '-';
-						$('#' + letterString + tdNumber).append(shipImages[j]);
-						$('#' + letterString + tdNumber).data('hasShip', 2);
-						if (letterHex >= 69) $('#' + String.fromCharCode(letterHex - 4) + '-' + tdNumber).data('hasRotShip', 5);
-						if (letterHex >= 68) $('#' + String.fromCharCode(letterHex - 3) + '-' + tdNumber).data('hasRotShip', 6);
-						$('#' + String.fromCharCode(letterHex + 3) + '-' + tdNumber).data('hasRotShip', 7);
-						$('#' + String.fromCharCode(letterHex + 4) + '-' + tdNumber).data('hasRotShip', 8);
-						for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex - 2 + k) + '-';
+				var grapPos = 2; //how far the ship is grapped from the first image
+				if (arrayImages.length == 1) grapPos = 0;
+				else if (arrayImages.length < 4) grapPos = 1;
+				var grapReach = 1; //how far the ship extends beyond grap
+				if (arrayImages.length < 3) grapReach = 0;
+				else if (arrayImages.length == 5) grapReach = 2;
+				if ($(dragObject).hasClass('rotate90')) {
+					var letterString = String.fromCharCode(letterHex + grapPos - j) + '-';
+					$('#' + letterString + tdNumber).append(shipImages[j]);
+					$('#' + letterString + tdNumber).data('hasShip', 2);
+					// reserving space around the ships
+					var hasRotShip5 = '#' + String.fromCharCode(letterHex - (grapReach + 2)) + '-' + tdNumber;
+					var hasRotShip6 = '#' + String.fromCharCode(letterHex - (grapReach + 1)) + '-' + tdNumber;
+					var hasRotShip7 = '#' + String.fromCharCode(letterHex + (grapPos + 1)) + '-' + tdNumber;
+					var hasRotShip8 = '#' + String.fromCharCode(letterHex + (grapPos + 2)) + '-' + tdNumber;
+					if (letterHex >= (67 + grapReach)) $(hasRotShip5).data('hasRotShip', 5);
+					if (letterHex >= (66 + grapReach)) $(hasRotShip6).data('hasRotShip', 6);
+					$(hasRotShip7).data('hasRotShip', 7);
+					$(hasRotShip8).data('hasRotShip', 8);
+					for (var k=0; k<arrayImages.length; k++) {
+						var letterString = String.fromCharCode(letterHex - grapReach + k) + '-';
+						if ($('#' + letterString + (tdNumber - 2)).data('hasShip') != 2)
 							$('#' + letterString + (tdNumber - 2)).data('hasShip', 0);
+						if ($('#' + letterString + (tdNumber - 1)).data('hasShip') != 2)
 							$('#' + letterString + (tdNumber - 1)).data('hasShip', 1);
+						if ($('#' + letterString + (tdNumber + 1)).data('hasShip') != 2)
 							$('#' + letterString + (tdNumber + 1)).data('hasShip', 3);
+						if ($('#' + letterString + (tdNumber + 2)).data('hasShip') != 2)
 							$('#' + letterString + (tdNumber + 2)).data('hasShip', 4);
-						}
-					} else {
-						// add ship parts to seperate cells
-						$('#' + tdLetter + (tdNumber + (-2 + j))).append(shipImages[j]);
-						// add hasShip data-id to ship body
-						$('#' + tdLetter + (tdNumber + (-2 + j))).data('hasShip', 2);
-						// add data-ids to neighbouring cells
-						$('#' + tdLetter + (tdNumber -4)).data('hasShip', 0);
-						$('#' + tdLetter + (tdNumber -3)).data('hasShip', 1);
-						$('#' + tdLetter + (tdNumber +3)).data('hasShip', 3);
-						$('#' + tdLetter + (tdNumber +4)).data('hasShip', 4);
-						if (letterHex >= 69) {for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex - 2) + '-';
-							$('#' + letterString + (tdNumber + (-2 + j))).data('hasRotShip', 5);
-						}}
-						if (letterHex >= 68) {for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex - 1) + '-';
-							$('#' + letterString + (tdNumber + (-2 + j))).data('hasRotShip', 6);
-						}}
-						for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex + 1) + '-';
-							$('#' + letterString + (tdNumber + (-2 + j))).data('hasRotShip', 7);
-						}
-						for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex + 2) + '-';
-							$('#' + letterString + (tdNumber + (-2 + j))).data('hasRotShip', 8);
-						}
-					}
-				} else if (arrayImages.length == 4) {
-					if ($(dragObject).hasClass('rotate90')) {
-						var letterString = String.fromCharCode(letterHex + 2 - j) + '-';
-						$('#' + letterString + tdNumber).append(shipImages[j]);
-						$('#' + letterString + tdNumber).data('hasShip', 2);
-						if (letterHex >= 68) $('#' + String.fromCharCode(letterHex - 3) + '-' + tdNumber).data('hasRotShip', 5);
-						if (letterHex >= 67) $('#' + String.fromCharCode(letterHex - 2) + '-' + tdNumber).data('hasRotShip', 6);
-						$('#' + String.fromCharCode(letterHex + 3) + '-' + tdNumber).data('hasRotShip', 7);
-						$('#' + String.fromCharCode(letterHex + 4) + '-' + tdNumber).data('hasRotShip', 8);
-						for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex - 1 + k) + '-';
-							$('#' + letterString + (tdNumber - 2)).data('hasShip', 0);
-							$('#' + letterString + (tdNumber - 1)).data('hasShip', 1);
-							$('#' + letterString + (tdNumber + 1)).data('hasShip', 3);
-							$('#' + letterString + (tdNumber + 2)).data('hasShip', 4);
-						}
-					} else {
-						$('#' + tdLetter + (tdNumber + (-2 + j))).append(shipImages[j]);
-						$('#' + tdLetter + (tdNumber + (-2 + j))).data('hasShip', 2);
-						$('#' + tdLetter + (tdNumber -4)).data('hasShip', 0);
-						$('#' + tdLetter + (tdNumber -3)).data('hasShip', 1);
-						$('#' + tdLetter + (tdNumber +2)).data('hasShip', 3);
-						$('#' + tdLetter + (tdNumber +3)).data('hasShip', 4);
-						if (letterHex >= 68) {for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex - 2) + '-';
-							$('#' + letterString + (tdNumber + (-2 + j))).data('hasRotShip', 5);
-						}}
-						if (letterHex >= 67) {for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex - 1) + '-';
-							$('#' + letterString + (tdNumber + (-2 + j))).data('hasRotShip', 6);
-						}}
-						for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex + 1) + '-';
-							$('#' + letterString + (tdNumber + (-2 + j))).data('hasRotShip', 7);
-						}
-						for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex + 2) + '-';
-							$('#' + letterString + (tdNumber + (-2 + j))).data('hasRotShip', 8);
-						}
-					}
-				} else if (arrayImages.length == 3) {
-					if ($(dragObject).hasClass('rotate90')) {
-						var letterString = String.fromCharCode(letterHex + 1 - j) + '-';
-						$('#' + letterString + tdNumber).append(shipImages[j]);
-						$('#' + letterString + tdNumber).data('hasShip', 2);
-						if (letterHex >= 68) $('#' + String.fromCharCode(letterHex - 3) + '-' + tdNumber).data('hasRotShip', 5);
-						if (letterHex >= 67) $('#' + String.fromCharCode(letterHex - 2) + '-' + tdNumber).data('hasRotShip', 6);
-						$('#' + String.fromCharCode(letterHex + 2) + '-' + tdNumber).data('hasRotShip', 7);
-						$('#' + String.fromCharCode(letterHex + 3) + '-' + tdNumber).data('hasRotShip', 8);
-						for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex - 1 + k) + '-';
-							$('#' + letterString + (tdNumber - 2)).data('hasShip', 0);
-							$('#' + letterString + (tdNumber - 1)).data('hasShip', 1);
-							$('#' + letterString + (tdNumber + 1)).data('hasShip', 3);
-							$('#' + letterString + (tdNumber + 2)).data('hasShip', 4);
-						}
-					} else {
-						$('#' + tdLetter + (tdNumber + (-1 + j))).append(shipImages[j]);
-						$('#' + tdLetter + (tdNumber + (-1 + j))).data('hasShip', 2);
-						$('#' + tdLetter + (tdNumber -3)).data('hasShip', 0);
-						$('#' + tdLetter + (tdNumber -2)).data('hasShip', 1);
-						$('#' + tdLetter + (tdNumber +2)).data('hasShip', 3);
-						$('#' + tdLetter + (tdNumber +3)).data('hasShip', 4);
-						if (letterHex >= 68) {for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex - 2) + '-';
-							$('#' + letterString + (tdNumber + (-1 + j))).data('hasRotShip', 5);
-						}}
-						if (letterHex >= 67) {for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex - 1) + '-';
-							$('#' + letterString + (tdNumber + (-1 + j))).data('hasRotShip', 6);
-						}}
-						for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex + 1) + '-';
-							$('#' + letterString + (tdNumber + (-1 + j))).data('hasRotShip', 7);
-						}
-						for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex + 2) + '-';
-							$('#' + letterString + (tdNumber + (-1 + j))).data('hasRotShip', 8);
-						}
-					}
-				} else if (arrayImages.length == 2) {
-					if ($(dragObject).hasClass('rotate90')) {
-						var letterString = String.fromCharCode(letterHex + 1 - j) + '-';
-						$('#' + letterString + tdNumber).append(shipImages[j]);
-						$('#' + letterString + tdNumber).data('hasShip', 2);
-						if (letterHex >= 67) $('#' + String.fromCharCode(letterHex - 2) + '-' + tdNumber).data('hasRotShip', 5);
-						if (letterHex >= 66) $('#' + String.fromCharCode(letterHex - 1) + '-' + tdNumber).data('hasRotShip', 6);
-						$('#' + String.fromCharCode(letterHex + 2) + '-' + tdNumber).data('hasRotShip', 7);
-						$('#' + String.fromCharCode(letterHex + 3) + '-' + tdNumber).data('hasRotShip', 8);
-						for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex + k) + '-';
-							$('#' + letterString + (tdNumber - 2)).data('hasShip', 0);
-							$('#' + letterString + (tdNumber - 1)).data('hasShip', 1);
-							$('#' + letterString + (tdNumber + 1)).data('hasShip', 3);
-							$('#' + letterString + (tdNumber + 2)).data('hasShip', 4);
-						}
-					} else {
-						$('#' + tdLetter + (tdNumber + (-1 + j))).append(shipImages[j]);
-						$('#' + tdLetter + (tdNumber + (-1 + j))).data('hasShip', 2);
-						$('#' + tdLetter + (tdNumber -3)).data('hasShip', 0);
-						$('#' + tdLetter + (tdNumber -2)).data('hasShip', 1);
-						$('#' + tdLetter + (tdNumber +1)).data('hasShip', 3);
-						$('#' + tdLetter + (tdNumber +2)).data('hasShip', 4);
-						if (letterHex >= 67) {for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex - 2) + '-';
-							$('#' + letterString + (tdNumber + (-1 + j))).data('hasRotShip', 5);
-						}}
-						if (letterHex >= 66) {for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex - 1) + '-';
-							$('#' + letterString + (tdNumber + (-1 + j))).data('hasRotShip', 6);
-						}}
-						for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex + 1) + '-';
-							$('#' + letterString + (tdNumber + (-1 + j))).data('hasRotShip', 7);
-						}
-						for (var k=0; k<arrayImages.length; k++) {
-							var letterString = String.fromCharCode(letterHex + 2) + '-';
-							$('#' + letterString + (tdNumber + (-1 + j))).data('hasRotShip', 8);
-						}
-					}
+					};
 				} else {
-					$('#' + tdLetter + (tdNumber)).append(shipImages[j]);
-					$('#' + tdLetter + (tdNumber)).data('hasShip', 2);
-					$('#' + tdLetter + (tdNumber -2)).data('hasShip', 0);
-					$('#' + tdLetter + (tdNumber -1)).data('hasShip', 1);
-					$('#' + tdLetter + (tdNumber +1)).data('hasShip', 3);
-					$('#' + tdLetter + (tdNumber +2)).data('hasShip', 4);
-					if (letterHex >= 67) $('#' + String.fromCharCode(letterHex - 2) + '-' + tdNumber).data('hasRotShip', 5);
-					if (letterHex >= 66) $('#' + String.fromCharCode(letterHex - 1) + '-' + tdNumber).data('hasRotShip', 6);
-					$('#' + String.fromCharCode(letterHex + 1) + '-' + tdNumber).data('hasRotShip', 7);
-					$('#' + String.fromCharCode(letterHex + 2) + '-' + tdNumber).data('hasRotShip', 8);
+					$('#' + tdLetter + (tdNumber + (-grapPos + j))).append(shipImages[j]);
+					$('#' + tdLetter + (tdNumber + (-grapPos + j))).data('hasShip', 2);
+					// reserving space around ships
+					if ($('#' + tdLetter + (tdNumber - grapPos - 2)).data('hasShip') != 2)
+						$('#' + tdLetter + (tdNumber - grapPos - 2)).data('hasShip', 0);
+					if ($('#' + tdLetter + (tdNumber - grapPos - 1)).data('hasShip') != 2)
+						$('#' + tdLetter + (tdNumber - grapPos - 1)).data('hasShip', 1);
+					if ($('#' + tdLetter + (tdNumber + grapReach + 1)).data('hasShip') != 2)
+						$('#' + tdLetter + (tdNumber + grapReach + 1)).data('hasShip', 3);
+					if ($('#' + tdLetter + (tdNumber + grapReach + 2)).data('hasShip') != 2)
+						$('#' + tdLetter + (tdNumber + grapReach + 2)).data('hasShip', 4);
+					if (letterHex >= 67) {for (var k=0; k<arrayImages.length; k++) {
+						var letterString = String.fromCharCode(letterHex - 2) + '-';
+						$('#' + letterString + (tdNumber + (- grapPos + j))).data('hasRotShip', 5);
+					}};
+					if (letterHex >= 66) {for (var k=0; k<arrayImages.length; k++) {
+						var letterString = String.fromCharCode(letterHex - 1) + '-';
+						$('#' + letterString + (tdNumber + (- grapPos + j))).data('hasRotShip', 6);
+					}};
+					for (var k=0; k<arrayImages.length; k++) {
+						var letterString = String.fromCharCode(letterHex + 1) + '-';
+						$('#' + letterString + (tdNumber + (- grapPos + j))).data('hasRotShip', 7);
+					}
+					for (var k=0; k<arrayImages.length; k++) {
+						var letterString = String.fromCharCode(letterHex + 2) + '-';
+						$('#' + letterString + (tdNumber + (- grapPos + j))).data('hasRotShip', 8);
+					}
 				}
-			};
+			}
 		}
 	};
 	return false;
