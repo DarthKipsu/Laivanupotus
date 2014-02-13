@@ -64,7 +64,8 @@ function computerTurn() {
 		aiHitAction(targetArray)
 	};
 	if (aiScore == 6) {
-		$('<p>Computer got all your ships! You\'ve lost!</p>').insertAfter('#instructions')
+		$('<p>Computer got all your ships! You\'ve lost!</p> \
+			<p class="pointer" onclick="location.reload();">Play again?</p>').insertAfter('#instructions')
 	} else {
 		turn = 'player'
 	}

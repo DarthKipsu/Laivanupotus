@@ -201,3 +201,7 @@ p .ship5.rotate90 { left: 20px; }
 	margin: 0 -15 0 0;
 	z-index: 99;
 }
+
+.pointer{
+	cursor: pointer;
+}

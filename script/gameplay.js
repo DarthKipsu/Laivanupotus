@@ -35,7 +35,8 @@ document.addEventListener('click', function(event) {
 				document.getElementById('instructions').innerHTML = "You hit!";
 			};
 			if (playerScore == 6) {
-				$('<p>You got all the computer ships! Congratulations, you\'ve won!</p>').insertAfter('#instructions')
+				$('<p>You got all the computer ships! Congratulations, you\'ve won!</p> \
+				<p class="pointer" onclick="location.reload();">Play again?</p>').insertAfter('#instructions')
 			} else {
 				computerTurn(); // in ai.js
 			};
