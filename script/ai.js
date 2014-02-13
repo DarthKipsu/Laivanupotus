@@ -119,6 +119,7 @@ function aiHitAction(array) {
 						sankShip.classList.add(targetShip.classList[1], 'ai-hit')
 						$('.ship' + i + '_' + (j + 1)).replaceWith(sankShip);
 					};
+					$('#ship-' + shipNumber).addClass('overline');
 					return;
 				};
 			};

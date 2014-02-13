@@ -30,6 +30,7 @@ document.addEventListener('click', function(event) {
 			if (window['aiShip' + (aiShip - 1)] == shipLength) {
 				document.getElementById('instructions').innerHTML = "You sink computer " +
 				shipArray[aiShip - 1].name + '!';
+				$('#ai-ship-' + (aiShip - 1)).addClass('overline');
 				playerScore += 1;
 			} else {
 				document.getElementById('instructions').innerHTML = "You hit!";

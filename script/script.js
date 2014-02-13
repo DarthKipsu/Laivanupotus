@@ -6,13 +6,14 @@ $(document).ready(function() {
 		$(this).removeClass('hover');
 	});
 	$('#game-starter, #override').click(function() {
-		if (placedShips == 6 || $(this).is('#override')) {
-			$('#ship-wrapper, #rotate, #game-starter, #override').hide();
+		if (placedShips == 6) {
+			$('#ship-wrapper, #rotate, #game-starter').hide();
 			$('#wrapper').css('width', '705')
 			$(createTable('computer', "ai")).insertBefore('#player');
 			aiShipPlacement();
 			document.getElementById('instructions').innerHTML = "Your turn. Place a bomb \
 			anywhere on the left grid by clicking on it.";
+			$('#score-wrapper').slideDown('slow');
 			turn = 'player';
 		};
 	});

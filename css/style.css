@@ -17,6 +17,11 @@ p {
 	padding: 0;
 }
 
+#score-wrapper {
+	width: 705px;
+	margin: auto;
+}
+
 #ship-wrapper {
 	width: 155px;
 	display: inline-block;
@@ -32,6 +37,20 @@ p {
 #ship-wrapper p {
 	font-size: 12px;
 	text-align: left;
+}
+
+#computer-score, #user-score {
+	display: inline-block;
+	width: 250px;
+	margin: 15px 50px 0 50px;
+}
+
+.overline {
+	text-decoration: line-through;
+}
+
+span {
+	display: block;
 }
 
 #rotate {

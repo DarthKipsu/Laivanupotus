@@ -156,11 +156,9 @@ function handleDragStart(event) {
 // listen to dragend function
 document.addEventListener('dragend', function noDrop(event) {
 	if (event.dataTransfer.dropEffect === 'move') { //if drop successfull, ok
-		console.log("drop success")
 	} else { // if it didn't fit the grid, restore the ship to be placed again
 			$(dragObject).removeClass('used');
 			$(dragObject).attr('draggable', 'true');
-			console.log("drop failed")
 			dragObject.onmousedown = function(event) {
 				return true;
 			};
