@@ -159,6 +159,7 @@ function aiHitAction(array) {
 			targetShipName + ". Your turn.")
 	} else {
 		//miss
+		console.log('hasShip: ' + ifHit);
 		$(targetCell).addClass('ai-no-hit');
 		$('#instructions').append(' Computer fires at ' + targetId + " which is a miss. Your turn.")
 	};

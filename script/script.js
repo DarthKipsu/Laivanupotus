@@ -8,7 +8,9 @@ $(document).ready(function() {
 	$('#game-starter, #override').click(function() {
 		if (placedShips == 6) {
 			$('#ship-wrapper, #rotate, #game-starter').hide();
-			$('#wrapper').css('width', '705')
+			$('#right-bg').css('margin-left', '365px');
+			$('#left-bg').css('margin-left', '-737px');
+			$('#wrapper').css('width', '705');
 			$(createTable('computer', "ai")).insertBefore('#player');
 			aiShipPlacement();
 			document.getElementById('instructions').innerHTML = "Your turn. Place a bomb \
