@@ -46,18 +46,23 @@ function aiShipPlacement() { // place ships on ai map
 	};
 };
 
+var potentialTargetsArray = [];
 var priorityTargetsArray = [];
 var aiHitCout = 0;
 
 function computerTurn() {
-	for (var i=0; i<priorityTargetsArray.length; i++) {
-		var target = priorityTargetsArray[i]
+	priorityTargetsArray = [];
+	for (var i=0; i<potentialTargetsArray.length; i++) {
+		var target = potentialTargetsArray[i]
 		if (target[0].classList.contains('ai-hit') || target[0].classList.contains('ai-no-hit')) {
-				priorityTargetsArray.splice(i, 1);
+				potentialTargetsArray.splice(i, 1);
 		};
 	};
-	if (priorityTargetsArray.length > 0) {
+	findStraights();
+	/*if (priorityTargetsArray.length > 0) {
 		aiHitAction(priorityTargetsArray);
+	} else */if (potentialTargetsArray.length > 0) {
+		aiHitAction(potentialTargetsArray);
 	} else {
 		var targetArray = $('#player tr td:not(.ai-hit, .ai-no-hit)');
 		aiHitAction(targetArray)
@@ -70,19 +75,37 @@ function computerTurn() {
 	}
 }
 
+function findStraights() {
+	var aiHits = document.querySelectorAll('td.ai-hit:not(.sank)');
+	for (var i=0; i<aiHits.length; i++) {
+		var nextSibling = aiHits[i].nextSibling;
+		var previousSibling = aiHits[i].previousSibling;
+		if (nextSibling != null) {
+			if (!nextSibling.classList.contains('ai-hit') && 
+				!nextSibling.classList.contains('ai-no-hit')) priorityTargetsArray.push(nextSibling);
+		};
+		if (previousSibling.nodeName == 'TD') {
+			if (!previousSibling.classList.contains('ai-hit') &&
+				!previousSibling.classList.contains('ai-no-hit')) priorityTargetsArray.push(previousSibling);
+		};
+	};
+	console.log(aiHits);
+	console.log(priorityTargetsArray);
+}
+
 function aiHitAction(array) {
 	var targetArray = array;
 	var randomTargetSelector = Math.floor(Math.random()*targetArray.length); // randomize attack
 	var targetCell = targetArray[randomTargetSelector]; // attack this cell
-	if (targetArray == priorityTargetsArray) {
+	if (targetArray == potentialTargetsArray) {
 		var targetCell = targetCell[0];
 	}
+	console.log(targetCell)
 	var targetId = targetCell.id;
 	var ifHit = $(targetCell).data('hasShip');
 	if (ifHit == 2) {
-		console.log(targetId)
 		aiHitCout += 1;
-		console.log(aiHitCout)
+		//aiHitArray.push(targetCell);
 		var tdLetter1 = String.fromCharCode(targetId.substring(0,1).charCodeAt(0) - 1);
 		var tdLetter = targetId.substring(0,1);
 		var tdLetter2 = String.fromCharCode(targetId.substring(0,1).charCodeAt(0) + 1);
@@ -95,7 +118,6 @@ function aiHitAction(array) {
 		targetShipHit.src = shipSrcArray[parseInt(targetClass.substring(4,5))] + targetClass.substring(6,7) + '_h.png';
 		targetShipHit.className = targetClassList;
 		var targetShipName = shipArray[parseInt(targetClass.substring(4,5))].name;
-		console.log(targetShipName);
 
 		$(targetShip).replaceWith(targetShipHit);
 		$(targetCell).addClass('ai-hit');
@@ -107,60 +129,40 @@ function aiHitAction(array) {
 
 		var shipNumber = targetClass.substring(4,5); // get ship id
 
-		for (var i=0; i<shipArray.length; i++) {
-			if (shipNumber == i) {
-				window['ship' + i] += 1; // adds hit to var shipX
-				var shipImages = shipArray[i].intact;
-				var shipLength = shipImages.length;
-				if (window['ship' + i] == shipLength) {
-					//sink it!
-					$('#instructions').append(' Computer fires at ' + targetId +
-						" and sinks your " + targetShipName + ". Your turn.")
-					aiScore += 1;
-					for (j=0; j<shipLength; j++) {
-						var sankShip = new Image();
-						sankShip.src = shipImages[j].substring(0,11) + '_s.png';
-						sankShip.classList.add(targetShip.classList[1], 'ai-hit')
-						$('.ship' + i + '_' + (j + 1)).replaceWith(sankShip);
-					};
-					$('#ship-' + shipNumber).addClass('overline');
-					if (shipLength == aiHitCout) { // if no other ships were hit
-						priorityTargetsArray = [];
-						aiHitCout = 0;
-					} else {
-						aiHitCout = (aiHitCout - shipLength);
-					}
-					return;
-				};
-			};
-		};
+		console.log(shipNumber)
+		console.log(targetId)
+		console.log(targetShip)
+		console.log(targetShipName)
+		if (aiSinkShip(targetCell, shipNumber, targetId, targetShip, targetShipName) == true) {
+			return;
+		}
 
 		if (tdLetter != 'A') {
 			var priorityObject = $('#' + tdLetter1 + '-' + tdNumber);
 			if (!priorityObject.hasClass('ai-hit') ||
 				!priorityObject.hasClass('ai-no-hit')) {
-				priorityTargetsArray.push(priorityObject);
+				potentialTargetsArray.push(priorityObject);
 			}
 		}
 		if (tdLetter != 'J') {
 			var priorityObject = $('#' + tdLetter2 + '-' + tdNumber);
 			if (!priorityObject.hasClass('ai-hit') ||
 				!priorityObject.hasClass('ai-no-hit')) {
-				priorityTargetsArray.push(priorityObject);
+				potentialTargetsArray.push(priorityObject);
 			}
 		}
 		if (tdNumber !== 1) {
 			var priorityObject = $('#' + tdLetter + '-' + (tdNumber - 1));
 			if (!priorityObject.hasClass('ai-hit') ||
 				!priorityObject.hasClass('ai-no-hit')) {
-				priorityTargetsArray.push(priorityObject);
+				potentialTargetsArray.push(priorityObject);
 			}
 		}
 		if (tdNumber !== 10) {
 			var priorityObject = $('#' + tdLetter + '-' + (tdNumber + 1));
 			if (!priorityObject.hasClass('ai-hit') ||
 				!priorityObject.hasClass('ai-no-hit')) {
-				priorityTargetsArray.push(priorityObject);
+				potentialTargetsArray.push(priorityObject);
 			}
 		}
 		$('#instructions').append(' Computer fires at ' + targetId + " and hits your " +
@@ -171,3 +173,63 @@ function aiHitAction(array) {
 		$('#instructions').append(' Computer fires at ' + targetId + " which is a miss. Your turn.")
 	};
 };
+
+/*function aiParallelHit(targetArray) {
+	var target0 = targetArray[0];
+	var target1 = targetArray[1];
+	var nextTarget1;
+	var nextTarget2;
+	if (target0.nextSibling == target1 || target0.previousSibling == target1) {
+		console.log('hit the same line')
+		var targetArraylength = targetArray.length;
+		for (var i=0; i<targetArraylength; i++) {
+			//console.log(targetArray[i].nextSibling)
+			//console.log(targetArray[i].previousSibling)
+			targetArray.push(targetArray[i].nextSibling);
+			targetArray.push(targetArray[i].previousSibling);
+		}
+		for (var i=0; i<targetArray.length; i++) {
+			if (targetArray[i].classList.contains('ai-hit') ||
+				targetArray[i].classList.contains('ai-no-hit'))
+				targetArray.splice(i--, 1);
+		}
+		console.log(targetArray);
+		aiHitAction(targetArray);
+	} else {
+		console.log('hit the same column')
+	}
+}*/
+
+function aiSinkShip(targetCell, shipNumber, targetId, targetShip, targetShipName) { // check if ship is sank
+	for (var i=0; i<shipArray.length; i++) {
+		if (shipNumber == i) {
+			window['ship' + i] += 1; // adds hit to var shipX
+			var shipImages = shipArray[i].intact;
+			var shipLength = shipImages.length;
+			if (window['ship' + i] == shipLength) {
+				//sink it!
+				$('#instructions').append(' Computer fires at ' + targetId +
+					" and sinks your " + targetShipName + ". Your turn.")
+				aiScore += 1;
+				for (j=0; j<shipLength; j++) {
+					var sankShip = new Image();
+					sankShip.src = shipImages[j].substring(0,11) + '_s.png';
+					sankShip.classList.add(targetShip.classList[1], 'ai-hit');
+					$('.ship' + i + '_' + (j + 1)).closest('td').addClass('sank');
+					$('.ship' + i + '_' + (j + 1)).replaceWith(sankShip);
+				};
+				//targetCell.classList.add('sank');
+				$('#ship-' + shipNumber).addClass('overline');
+				if (shipLength == aiHitCout) { // if no other ships were hit
+					potentialTargetsArray = [];
+					aiHitCout = 0;
+				} else {
+					aiHitCout = (aiHitCout - shipLength);
+				}
+				return true;
+			} else {
+				return false;
+			}
+		};
+	};
+}
