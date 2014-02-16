@@ -59,9 +59,9 @@ function computerTurn() {
 		};
 	};
 	findStraights();
-	/*if (priorityTargetsArray.length > 0) {
+	if (priorityTargetsArray.length > 0) {
 		aiHitAction(priorityTargetsArray);
-	} else */if (potentialTargetsArray.length > 0) {
+	} else if (potentialTargetsArray.length > 0) {
 		aiHitAction(potentialTargetsArray);
 	} else {
 		var targetArray = $('#player tr td:not(.ai-hit, .ai-no-hit)');
@@ -85,21 +85,59 @@ function findStraights() {
 				if (aiHits[i].id != aiHits[j].id && (aiHits[i].nextSibling == aiHits[j] ||
 					aiHits[i].previousSibling == aiHits[j])) {
 					aiHorizonalHits.push(aiHits[i]);
+					break;
+				};
+				if (aiHits[i].id != aiHits[j].id && aiHits[i].classList[0] == aiHits[j].classList[0]) {
+					aiVerticalHits.push(aiHits[i]);
+					break;
 				};
 			};
 		};
 		console.log(aiHorizonalHits);
+		console.log(aiVerticalHits);
 		for (var i=0; i<aiHorizonalHits.length; i++) {
 			var nextSibling = aiHorizonalHits[i].nextSibling;
 			var previousSibling = aiHorizonalHits[i].previousSibling;
 			if (nextSibling != null) {
 				if (!nextSibling.classList.contains('ai-hit') && 
-					!nextSibling.classList.contains('ai-no-hit')) priorityTargetsArray.push(nextSibling);
+					!nextSibling.classList.contains('ai-no-hit')) {
+					var targetId = nextSibling.id;
+					var targetCell = $('#' + targetId);
+					priorityTargetsArray.push(targetCell);
+				};
 			};
 			if (previousSibling.nodeName == 'TD') {
 				if (!previousSibling.classList.contains('ai-hit') &&
-					!previousSibling.classList.contains('ai-no-hit')) priorityTargetsArray.push(previousSibling);
+					!previousSibling.classList.contains('ai-no-hit')) {
+					var targetId = previousSibling.id;
+					var targetCell = $('#' + targetId);
+					priorityTargetsArray.push(targetCell);
+				};
 			};
+		};
+		for (var i=0; i<aiVerticalHits.length; i++) {
+			var targetId = aiVerticalHits[i].id;
+			var targetLetter1 = String.fromCharCode(targetId.substring(0,1).charCodeAt(0) - 1);
+			var targetLetter = targetId.substring(0,1);
+			var targetLetter2 = String.fromCharCode(targetId.substring(0,1).charCodeAt(0) + 1);
+			var targetNumber = parseInt(targetId.substring(2,4), 10);
+
+			var nextCell = aiVerticalHits[i].nextSibling;
+			var previousCell = aiVerticalHits[i].previousSibling;
+			if (targetLetter != 'A') {
+				var priorityObject = $('#' + targetLetter1 + '-' + targetNumber);
+				if (!priorityObject.hasClass('ai-hit') &&
+					!priorityObject.hasClass('ai-no-hit')) {
+					priorityTargetsArray.push(priorityObject);
+				}
+			}
+			if (targetLetter != 'J') {
+				var priorityObject = $('#' + targetLetter2 + '-' + targetNumber);
+				if (!priorityObject.hasClass('ai-hit') &&
+					!priorityObject.hasClass('ai-no-hit')) {
+					priorityTargetsArray.push(priorityObject);
+				}
+			}
 		};
 		/*for (var i=0; i<aiHits.length; i++) {
 			var nextSibling = aiHits[i].nextSibling;
@@ -122,7 +160,7 @@ function aiHitAction(array) {
 	var targetArray = array;
 	var randomTargetSelector = Math.floor(Math.random()*targetArray.length); // randomize attack
 	var targetCell = targetArray[randomTargetSelector]; // attack this cell
-	if (targetArray == potentialTargetsArray) {
+	if (targetArray == potentialTargetsArray || targetArray == priorityTargetsArray) {
 		var targetCell = targetCell[0];
 	}
 	console.log(targetCell)
