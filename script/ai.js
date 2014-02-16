@@ -93,8 +93,6 @@ function findStraights() {
 				};
 			};
 		};
-		console.log(aiHorizonalHits);
-		console.log(aiVerticalHits);
 		for (var i=0; i<aiHorizonalHits.length; i++) {
 			var nextSibling = aiHorizonalHits[i].nextSibling;
 			var previousSibling = aiHorizonalHits[i].previousSibling;
@@ -139,21 +137,7 @@ function findStraights() {
 				}
 			}
 		};
-		/*for (var i=0; i<aiHits.length; i++) {
-			var nextSibling = aiHits[i].nextSibling;
-			var previousSibling = aiHits[i].previousSibling;
-			if (nextSibling != null) {
-				if (!nextSibling.classList.contains('ai-hit') && 
-					!nextSibling.classList.contains('ai-no-hit')) priorityTargetsArray.push(nextSibling);
-			};
-			if (previousSibling.nodeName == 'TD') {
-				if (!previousSibling.classList.contains('ai-hit') &&
-					!previousSibling.classList.contains('ai-no-hit')) priorityTargetsArray.push(previousSibling);
-			};
-		};*/
 	};
-	console.log(aiHits);
-	console.log(priorityTargetsArray);
 }
 
 function aiHitAction(array) {
@@ -163,12 +147,10 @@ function aiHitAction(array) {
 	if (targetArray == potentialTargetsArray || targetArray == priorityTargetsArray) {
 		var targetCell = targetCell[0];
 	}
-	console.log(targetCell)
 	var targetId = targetCell.id;
 	var ifHit = $(targetCell).data('hasShip');
 	if (ifHit == 2) {
 		aiHitCout += 1;
-		//aiHitArray.push(targetCell);
 		var tdLetter1 = String.fromCharCode(targetId.substring(0,1).charCodeAt(0) - 1);
 		var tdLetter = targetId.substring(0,1);
 		var tdLetter2 = String.fromCharCode(targetId.substring(0,1).charCodeAt(0) + 1);
@@ -192,10 +174,6 @@ function aiHitAction(array) {
 
 		var shipNumber = targetClass.substring(4,5); // get ship id
 
-		console.log(shipNumber)
-		console.log(targetId)
-		console.log(targetShip)
-		console.log(targetShipName)
 		if (aiSinkShip(targetCell, shipNumber, targetId, targetShip, targetShipName) == true) {
 			return;
 		}
@@ -237,32 +215,6 @@ function aiHitAction(array) {
 	};
 };
 
-/*function aiParallelHit(targetArray) {
-	var target0 = targetArray[0];
-	var target1 = targetArray[1];
-	var nextTarget1;
-	var nextTarget2;
-	if (target0.nextSibling == target1 || target0.previousSibling == target1) {
-		console.log('hit the same line')
-		var targetArraylength = targetArray.length;
-		for (var i=0; i<targetArraylength; i++) {
-			//console.log(targetArray[i].nextSibling)
-			//console.log(targetArray[i].previousSibling)
-			targetArray.push(targetArray[i].nextSibling);
-			targetArray.push(targetArray[i].previousSibling);
-		}
-		for (var i=0; i<targetArray.length; i++) {
-			if (targetArray[i].classList.contains('ai-hit') ||
-				targetArray[i].classList.contains('ai-no-hit'))
-				targetArray.splice(i--, 1);
-		}
-		console.log(targetArray);
-		aiHitAction(targetArray);
-	} else {
-		console.log('hit the same column')
-	}
-}*/
-
 function aiSinkShip(targetCell, shipNumber, targetId, targetShip, targetShipName) { // check if ship is sank
 	for (var i=0; i<shipArray.length; i++) {
 		if (shipNumber == i) {
@@ -281,7 +233,6 @@ function aiSinkShip(targetCell, shipNumber, targetId, targetShip, targetShipName
 					$('.ship' + i + '_' + (j + 1)).closest('td').addClass('sank');
 					$('.ship' + i + '_' + (j + 1)).replaceWith(sankShip);
 				};
-				//targetCell.classList.add('sank');
 				$('#ship-' + shipNumber).addClass('overline');
 				if (shipLength == aiHitCout) { // if no other ships were hit
 					potentialTargetsArray = [];
