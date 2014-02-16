@@ -27,6 +27,8 @@ This is my second try at making a JavaScript game. I had about three weeks of st
 
 Tested with recent versions of most common browsers. Works best with Firefox and may have minor appearance issues with the rest.
 
+Does NOT work on Internet Explorer.
+
 Version
 ----
 
