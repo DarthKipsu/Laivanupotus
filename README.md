@@ -14,6 +14,10 @@ The Battleship game has the following features:
 - Individual ship design.
 - Drag and drop ship placement.
 - 10 x 10 battlefield.
+- #### AI:
+ - Random target selection
+ - Can target rows and colums after two successful shots
+ - Doesn't cheat. :)
 
 ##### Background
 
