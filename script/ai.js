@@ -77,17 +77,42 @@ function computerTurn() {
 
 function findStraights() {
 	var aiHits = document.querySelectorAll('td.ai-hit:not(.sank)');
-	for (var i=0; i<aiHits.length; i++) {
-		var nextSibling = aiHits[i].nextSibling;
-		var previousSibling = aiHits[i].previousSibling;
-		if (nextSibling != null) {
-			if (!nextSibling.classList.contains('ai-hit') && 
-				!nextSibling.classList.contains('ai-no-hit')) priorityTargetsArray.push(nextSibling);
+	if (aiHits.length >= 2) {
+		var aiVerticalHits = [];
+		var aiHorizonalHits = [];
+		for (var i=0; i<aiHits.length; i++) {
+			for (var j=0; j<aiHits.length; j++) {
+				if (aiHits[i].id != aiHits[j].id && (aiHits[i].nextSibling == aiHits[j] ||
+					aiHits[i].previousSibling == aiHits[j])) {
+					aiHorizonalHits.push(aiHits[i]);
+				};
+			};
 		};
-		if (previousSibling.nodeName == 'TD') {
-			if (!previousSibling.classList.contains('ai-hit') &&
-				!previousSibling.classList.contains('ai-no-hit')) priorityTargetsArray.push(previousSibling);
+		console.log(aiHorizonalHits);
+		for (var i=0; i<aiHorizonalHits.length; i++) {
+			var nextSibling = aiHorizonalHits[i].nextSibling;
+			var previousSibling = aiHorizonalHits[i].previousSibling;
+			if (nextSibling != null) {
+				if (!nextSibling.classList.contains('ai-hit') && 
+					!nextSibling.classList.contains('ai-no-hit')) priorityTargetsArray.push(nextSibling);
+			};
+			if (previousSibling.nodeName == 'TD') {
+				if (!previousSibling.classList.contains('ai-hit') &&
+					!previousSibling.classList.contains('ai-no-hit')) priorityTargetsArray.push(previousSibling);
+			};
 		};
+		/*for (var i=0; i<aiHits.length; i++) {
+			var nextSibling = aiHits[i].nextSibling;
+			var previousSibling = aiHits[i].previousSibling;
+			if (nextSibling != null) {
+				if (!nextSibling.classList.contains('ai-hit') && 
+					!nextSibling.classList.contains('ai-no-hit')) priorityTargetsArray.push(nextSibling);
+			};
+			if (previousSibling.nodeName == 'TD') {
+				if (!previousSibling.classList.contains('ai-hit') &&
+					!previousSibling.classList.contains('ai-no-hit')) priorityTargetsArray.push(previousSibling);
+			};
+		};*/
 	};
 	console.log(aiHits);
 	console.log(priorityTargetsArray);
